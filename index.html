@@ -10,8 +10,8 @@
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     
     <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -44,6 +44,11 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+        
+        /* Centralizar definiciones de fuentes para mejor mantenimiento */
+        h1, .section-title {
+            font-family: 'Montserrat', sans-serif;
         }
         
         .container {
@@ -99,7 +104,6 @@
         }
         
         h1 {
-            font-family: 'Montserrat', sans-serif;
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 20px;
@@ -114,7 +118,7 @@
             opacity: 0.9;
             animation: fadeInUp 0.8s ease-out 0.2s;
             animation-fill-mode: both;
-            min-height: 40px;
+            min-height: 40px; /* Altura mínima para evitar saltos en la página */
         }
         
         .cta-button {
@@ -144,7 +148,6 @@
         }
         
         .section-title {
-            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--dark-color);
@@ -267,7 +270,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
-            transition: var(--transition);
+            transition: opacity 0.4s ease, transform 0.4s ease; /* Transición suave para animación de filtrado */
             display: flex;
             flex-direction: column;
             cursor: pointer;
@@ -279,7 +282,13 @@
         }
         
         .project-card.hidden {
-            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none; /* Evita interacción con tarjetas ocultas */
+            height: 0;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
         }
         
         .project-image {
@@ -586,12 +595,6 @@
             <h2 class="section-title fade-in">Mis Proyectos</h2>
             <div id="projectFilters" class="project-filters">
                 <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="JavaScript">JavaScript</button>
-                <button class="filter-btn" data-filter="React">React</button>
-                <button class="filter-btn" data-filter="CSS">CSS</button>
-                <button class="filter-btn" data-filter="HTML">HTML</button>
-                <button class="filter-btn" data-filter="Bootstrap">Bootstrap</button>
-                <button class="filter-btn" data-filter="CryptoJS">CryptoJS</button>
             </div>
             <div id="statusMessage"></div>
             <div id="projectsContainer" class="projects-container">
@@ -632,28 +635,37 @@
     </footer>
 
     <script>
+        /**
+         * Función principal que se ejecuta cuando el DOM está completamente cargado
+         */
         document.addEventListener('DOMContentLoaded', () => {
+            // Referencias a elementos del DOM
             const projectsContainer = document.getElementById('projectsContainer');
             const statusMessage = document.getElementById('statusMessage');
             const projectFilters = document.getElementById('projectFilters');
+            const typedTextElement = document.getElementById('typed-text');
             
-            // Inicializar Typed.js para el efecto de escritura
-            const typed = new Typed('#typed-text', {
+            // Configuración del efecto de escritura Typed.js
+            const typedConfig = {
                 strings: ['Ingeniero de Software', 'Desarrollador de Productos', 'Apasionado por la Tecnología'],
                 typeSpeed: 50,
                 backSpeed: 30,
                 loop: true,
-                backDelay: 2000,
+                backDelay: 2000, // Tiempo adicional antes de borrar el texto
                 startDelay: 500
-            });
+            };
             
-            // Animación de aparición al hacer scroll
+            // Inicializar Typed.js para el efecto de escritura
+            const typed = new Typed(typedTextElement, typedConfig);
+            
+            // Configuración del Intersection Observer para animaciones al hacer scroll
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
                 threshold: 0.1
             };
             
+            // Crear un observer para animaciones de aparición
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -662,29 +674,34 @@
                 });
             }, observerOptions);
             
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
+            // Observar todos los elementos con la clase fade-in para animarlos al hacer scroll
+            document.querySelectorAll('.fade-in').forEach(element => {
+                observer.observe(element);
             });
             
             // Cargar proyectos automáticamente al cargar la página
             loadProjects();
             
-            // Función para cargar los proyectos
+            /**
+             * Función asíncrona para cargar los proyectos desde el archivo projects.json
+             */
             async function loadProjects() {
-                const username = 'GumBuddy';
-                const repo = 'Portafolio';
+                const githubUsername = 'GumBuddy';
+                const githubRepo = 'Portafolio';
                 
+                // Mostrar mensaje de carga
                 showStatus('Cargando proyectos...', 'loading');
                 projectsContainer.innerHTML = '<div class="loading">Buscando proyectos...</div>';
                 
                 try {
-                    // Obtener los datos del archivo projects.json
-                    const response = await fetch(`https://raw.githubusercontent.com/${username}/${repo}/main/projects.json`);
+                    // Obtener los datos del archivo projects.json desde GitHub
+                    const response = await fetch(`https://raw.githubusercontent.com/${githubUsername}/${githubRepo}/main/projects.json`);
                     
                     if (!response.ok) {
                         throw new Error(`No se pudo cargar projects.json: ${response.statusText}`);
                     }
                     
+                    // Parsear los datos JSON
                     const projectsData = await response.json();
                     
                     if (projectsData.length === 0) {
@@ -697,59 +714,65 @@
                     projectsContainer.innerHTML = '';
                     showStatus(`Se encontraron ${projectsData.length} proyectos.`, 'success');
                     
-                    // Crear filtros dinámicamente basados en las tecnologías
-                    const allTechs = new Set(['all']);
+                    // Crear un conjunto con todas las tecnologías únicas para los filtros
+                    const allTechnologies = new Set(['all']);
+                    
+                    // Recopilar todas las tecnologías de los proyectos
                     projectsData.forEach(project => {
                         project.technologies.forEach(tech => {
-                            allTechs.add(tech);
+                            allTechnologies.add(tech);
                         });
                     });
                     
                     // Limpiar filtros existentes excepto "Todos"
                     projectFilters.innerHTML = '<button class="filter-btn active" data-filter="all">Todos</button>';
                     
-                    // Agregar botones de filtro para cada tecnología
-                    allTechs.forEach(tech => {
+                    // Agregar botones de filtro para cada tecnología única
+                    allTechnologies.forEach(tech => {
                         if (tech !== 'all') {
-                            const filterBtn = document.createElement('button');
-                            filterBtn.className = 'filter-btn';
-                            filterBtn.setAttribute('data-filter', tech);
-                            filterBtn.textContent = tech;
-                            projectFilters.appendChild(filterBtn);
+                            const filterButton = document.createElement('button');
+                            filterButton.className = 'filter-btn';
+                            filterButton.setAttribute('data-filter', tech);
+                            filterButton.textContent = tech;
+                            projectFilters.appendChild(filterButton);
                         }
                     });
                     
                     // Agregar event listeners a los botones de filtro
-                    document.querySelectorAll('.filter-btn').forEach(btn => {
-                        btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(button => {
+                        button.addEventListener('click', () => {
                             // Actualizar botón activo
                             document.querySelector('.filter-btn.active').classList.remove('active');
-                            btn.classList.add('active');
+                            button.classList.add('active');
                             
-                            // Filtrar proyectos
-                            const filter = btn.getAttribute('data-filter');
-                            filterProjects(filter);
+                            // Filtrar proyectos según la tecnología seleccionada
+                            const selectedFilter = button.getAttribute('data-filter');
+                            filterProjects(selectedFilter);
                         });
                     });
                     
-                    // Mostrar los proyectos
+                    // Mostrar los proyectos en tarjetas
                     projectsData.forEach(project => {
                         const projectName = project.name;
-                        const projectPath = project.fileName;
+                        const projectFileName = project.fileName;
                         const projectDescription = project.description;
-                        const techs = project.technologies;
-                        const iconClass = project.icon;
+                        const projectTechnologies = project.technologies;
+                        const projectIcon = project.icon;
                         
-                        const projectUrl = `https://${username}.github.io/${repo}/${projectPath}`;
-                        const repoUrl = `https://github.com/${username}/${repo}/blob/main/${projectPath}`;
+                        // Construir URLs para el proyecto y el código fuente
+                        const projectUrl = `https://${githubUsername}.github.io/${githubRepo}/${projectFileName}`;
+                        const repoUrl = `https://github.com/${githubUsername}/${githubRepo}/blob/main/${projectFileName}`;
                         
+                        // Crear elemento de tarjeta de proyecto
                         const projectCard = document.createElement('div');
                         projectCard.className = 'project-card fade-in';
-                        projectCard.setAttribute('data-tech', techs.join(',').toLowerCase());
+                        // Almacenar tecnologías como atributo para facilitar el filtrado
+                        projectCard.setAttribute('data-tech', projectTechnologies.join(',').toLowerCase());
                         
+                        // Construir el HTML de la tarjeta
                         projectCard.innerHTML = `
                             <div class="project-image">
-                                <i class="${iconClass} project-icon"></i>
+                                <i class="${projectIcon} project-icon"></i>
                             </div>
                             <div class="project-header">
                                 <h3 class="project-name">${projectName}</h3>
@@ -757,7 +780,7 @@
                             <div class="project-content">
                                 <p class="project-description">${projectDescription}</p>
                                 <div class="tech-tags">
-                                    ${techs.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                                    ${projectTechnologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
                                 </div>
                                 <div class="project-buttons">
                                     <a href="${projectUrl}" target="_blank" class="btn btn-primary">
@@ -772,9 +795,10 @@
                             </div>
                         `;
                         
+                        // Agregar la tarjeta al contenedor
                         projectsContainer.appendChild(projectCard);
                         
-                        // Observar la tarjeta para la animación
+                        // Observar la tarjeta para la animación de aparición
                         observer.observe(projectCard);
                     });
                     
@@ -785,37 +809,54 @@
                 }
             }
             
-            // Función para filtrar proyectos
+            /**
+             * Función para filtrar proyectos por tecnología
+             * @param {string} filter - Tecnología por la que filtrar o 'all' para mostrar todos
+             */
             function filterProjects(filter) {
-                const projects = document.querySelectorAll('.project-card');
-                
-                projects.forEach(project => {
-                    if (filter === 'all') {
-                        project.classList.remove('hidden');
-                    } else {
-                        const techs = project.getAttribute('data-tech');
-                        if (techs.includes(filter.toLowerCase())) {
-                            project.classList.remove('hidden');
-                        } else {
-                            project.classList.add('hidden');
-                        }
+                const allProjectCards = document.querySelectorAll('.project-card');
+                let visibleProjectsCount = 0;
+
+                // Iterar sobre todas las tarjetas de proyecto
+                allProjectCards.forEach(projectCard => {
+                    const projectTechnologies = projectCard.getAttribute('data-tech');
+                    const shouldBeVisible = filter === 'all' || projectTechnologies.includes(filter.toLowerCase());
+                    
+                    // Aplicar u ocultar la clase según corresponda
+                    projectCard.classList.toggle('hidden', !shouldBeVisible);
+                    
+                    // Contar proyectos visibles
+                    if (shouldBeVisible) {
+                        visibleProjectsCount++;
                     }
                 });
+
+                // Mostrar mensaje si no hay proyectos visibles para el filtro seleccionado
+                if (visibleProjectsCount === 0) {
+                    statusMessage.innerHTML = `<div class="status-message loading">No se encontraron proyectos con la tecnología "${filter}".</div>`;
+                } else {
+                    // Ocultar el mensaje si hay resultados
+                    statusMessage.innerHTML = '';
+                }
             }
             
-            // Función para mostrar mensajes de estado
+            /**
+             * Función para mostrar mensajes de estado
+             * @param {string} message - Mensaje a mostrar
+             * @param {string} type - Tipo de mensaje (loading, error, success)
+             */
             function showStatus(message, type) {
                 statusMessage.innerHTML = `<div class="status-message ${type}">${message}</div>`;
             }
             
             // Suavizado del scroll para enlaces internos
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
+                anchor.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const targetElement = document.querySelector(this.getAttribute('href'));
+                    if (targetElement) {
                         window.scrollTo({
-                            top: target.offsetTop - 80,
+                            top: targetElement.offsetTop - 80,
                             behavior: 'smooth'
                         });
                     }
@@ -823,5 +864,5 @@
             });
         });
     </script>
-
-</body></html>
+</body>
+</html>

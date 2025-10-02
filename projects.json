@@ -6,5 +6,13 @@
     "description": "Herramienta de cifrado de enlaces del lado del cliente construida desde cero con un enfoque en la privacidad total, la usabilidad y un diseño profesional.",
     "technologies": ["JavaScript (ES6+)", "CryptoJS", "Bootstrap 5", "Accesibilidad (a11y)"],
     "icon": "fas fa-shield-alt"
-  }  
+  },
+  {
+    "id": "otro-proyecto",
+    "fileName": "OtroProyecto.html",
+    "name": "Plantilla",
+    "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+    "technologies": ["React", "CSS Modules", "API Rest"],
+    "icon": "fas fa-chart-line"
+  }
 ]

@@ -30,6 +30,7 @@
             --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --hover-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --chat-color: #4285f4;
         }
         
         * {
@@ -44,11 +45,6 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-        }
-        
-        /* Centralizar definiciones de fuentes para mejor mantenimiento */
-        h1, .section-title {
-            font-family: 'Montserrat', sans-serif;
         }
         
         .container {
@@ -103,6 +99,10 @@
             margin: 0 auto;
         }
         
+        h1, .section-title {
+            font-family: 'Montserrat', sans-serif;
+        }
+        
         h1 {
             font-size: 3.5rem;
             font-weight: 800;
@@ -118,7 +118,7 @@
             opacity: 0.9;
             animation: fadeInUp 0.8s ease-out 0.2s;
             animation-fill-mode: both;
-            min-height: 40px; /* Altura mínima para evitar saltos en la página */
+            min-height: 40px;
         }
         
         .cta-button {
@@ -270,7 +270,7 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
-            transition: opacity 0.4s ease, transform 0.4s ease; /* Transición suave para animación de filtrado */
+            transition: opacity 0.4s ease, transform 0.4s ease;
             display: flex;
             flex-direction: column;
             cursor: pointer;
@@ -284,7 +284,7 @@
         .project-card.hidden {
             opacity: 0;
             transform: scale(0.95);
-            pointer-events: none; /* Evita interacción con tarjetas ocultas */
+            pointer-events: none;
             height: 0;
             margin: 0;
             padding: 0;
@@ -500,6 +500,204 @@
             color: var(--secondary-color);
         }
         
+        /* Chat con Gemini */
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        .chat-bubble {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--chat-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+        
+        .chat-bubble:hover {
+            transform: scale(1.1);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .chat-bubble i {
+            font-size: 24px;
+        }
+        
+        .chat-window {
+            width: 380px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: var(--hover-shadow);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        
+        .chat-window.active {
+            display: flex;
+        }
+        
+        .chat-header {
+            background-color: var(--chat-color);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .chat-close:hover {
+            transform: scale(1.2);
+        }
+        
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+        
+        .message.user {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message.bot {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-timestamp {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+        
+        .chat-input-container {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+        }
+        
+        .chat-send {
+            background-color: var(--chat-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .chat-send:hover {
+            background-color: #3367d6;
+        }
+        
+        .chat-send i {
+            font-size: 1rem;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--light-color);
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            max-width: 80px;
+        }
+        
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 2px;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+        
         /* Diseño responsivo */
         @media (max-width: 768px) {
             h1 {
@@ -526,6 +724,12 @@
             .contact-link {
                 width: 100%;
                 max-width: 300px;
+            }
+            
+            .chat-window {
+                width: calc(100vw - 40px);
+                right: 20px;
+                left: 20px;
             }
         }
     </style>
@@ -633,11 +837,35 @@
             <p>© 2023 GumBuddy | Ingeniero de Software. Todos los derechos reservados.</p>
         </div>
     </footer>
+    
+    <!-- Chat con Gemini -->
+    <div class="chat-container">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <h3>Asistente IA</h3>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot">
+                    <p>¡Hola! Soy el asistente de GumBuddy. Puedes preguntarme sobre sus proyectos, habilidades técnicas, experiencia académica o cualquier otra duda que tengas. ¿En qué puedo ayudarte hoy?</p>
+                    <div class="message-timestamp">Ahora</div>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu mensaje...">
+                <button class="chat-send" id="chatSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-bubble" id="chatBubble">
+            <i class="fas fa-comments"></i>
+        </div>
+    </div>
 
     <script>
-        /**
-         * Función principal que se ejecuta cuando el DOM está completamente cargado
-         */
         document.addEventListener('DOMContentLoaded', () => {
             // Referencias a elementos del DOM
             const projectsContainer = document.getElementById('projectsContainer');
@@ -645,13 +873,21 @@
             const projectFilters = document.getElementById('projectFilters');
             const typedTextElement = document.getElementById('typed-text');
             
+            // Elementos del chat
+            const chatBubble = document.getElementById('chatBubble');
+            const chatWindow = document.getElementById('chatWindow');
+            const chatClose = document.getElementById('chatClose');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            
             // Configuración del efecto de escritura Typed.js
             const typedConfig = {
                 strings: ['Ingeniero de Software', 'Desarrollador de Productos', 'Apasionado por la Tecnología'],
                 typeSpeed: 50,
                 backSpeed: 30,
                 loop: true,
-                backDelay: 2000, // Tiempo adicional antes de borrar el texto
+                backDelay: 2000,
                 startDelay: 500
             };
             
@@ -681,6 +917,159 @@
             
             // Cargar proyectos automáticamente al cargar la página
             loadProjects();
+            
+            // Funcionalidad del chat
+            chatBubble.addEventListener('click', () => {
+                chatWindow.classList.toggle('active');
+                if (chatWindow.classList.contains('active')) {
+                    chatInput.focus();
+                }
+            });
+            
+            chatClose.addEventListener('click', () => {
+                chatWindow.classList.remove('active');
+            });
+            
+            chatSend.addEventListener('click', sendMessage);
+            
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            /**
+             * Función para enviar un mensaje en el chat
+             */
+            function sendMessage() {
+                const messageText = chatInput.value.trim();
+                if (messageText === '') return;
+                
+                // Agregar mensaje del usuario al chat
+                addMessageToChat(messageText, 'user');
+                
+                // Limpiar el input
+                chatInput.value = '';
+                
+                // Mostrar indicador de escritura
+                showTypingIndicator();
+                
+                // Enviar mensaje a Gemini y obtener respuesta
+                getGeminiResponse(messageText);
+            }
+            
+            /**
+             * Función para agregar un mensaje al chat
+             * @param {string} text - Texto del mensaje
+             * @param {string} sender - Remitente del mensaje ('user' o 'bot')
+             */
+            function addMessageToChat(text, sender) {
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${sender}`;
+                
+                const now = new Date();
+                const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
+                                 now.getMinutes().toString().padStart(2, '0');
+                
+                messageElement.innerHTML = `
+                    <p>${text}</p>
+                    <div class="message-timestamp">${timeString}</div>
+                `;
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            /**
+             * Función para mostrar el indicador de escritura
+             */
+            function showTypingIndicator() {
+                const typingElement = document.createElement('div');
+                typingElement.className = 'typing-indicator';
+                typingElement.id = 'typing-indicator';
+                typingElement.innerHTML = `
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                `;
+                
+                chatMessages.appendChild(typingElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            /**
+             * Función para ocultar el indicador de escritura
+             */
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            /**
+             * Función para obtener respuesta de Gemini a través de una función serverless
+             * @param {string} userMessage - Mensaje del usuario
+             */
+            async function getGeminiResponse(userMessage) {
+                try {
+                    // Contexto para Gemini con información sobre el portafolio
+                    const context = `
+                        Eres un asistente de IA para el portafolio de Angelo Azcorra (GumBuddy), un Ingeniero de Software.
+                        
+                        INFORMACIÓN SOBRE ANGELO:
+                        - Es un Ingeniero de Software con experiencia en el ciclo completo de desarrollo.
+                        - Tiene habilidades en Desarrollo Full Stack, Diseño Responsivo, Integración de IA y Seguridad.
+                        - Su enfoque es liderar proyectos desde la conceptualización hasta la implementación final.
+                        - Es experto en dirigir flujos de trabajo eficientes, apalancando herramientas de IA.
+                        
+                        PROYECTOS DESTACADOS:
+                        - RAKURL Security: Herramienta de cifrado de enlaces del lado del cliente construida con JavaScript (ES6+), CryptoJS, Bootstrap 5 y accesibilidad.
+                        
+                        CONTACTO:
+                        - GitHub: https://github.com/GumBuddy
+                        - Email: azcorra97dev@outlook.com
+                        
+                        Responde de manera profesional, concisa y útil. Si no conoces la respuesta a una pregunta específica, sugiere contactar directamente a Angelo.
+                    `;
+                    
+                    // La URL ahora apunta a tu función serverless en Netlify
+                    const apiUrl = '/.netlify/functions/gemini'; 
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userMessage: userMessage,
+                            context: context
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    const botResponse = data.reply; // La respuesta ahora viene en la propiedad 'reply'
+                    
+                    // Ocultar indicador de escritura
+                    hideTypingIndicator();
+                    
+                    // Agregar respuesta del bot al chat
+                    addMessageToChat(botResponse, 'bot');
+                    
+                } catch (error) {
+                    console.error('Error al obtener respuesta de Gemini:', error);
+                    
+                    // Ocultar indicador de escritura
+                    hideTypingIndicator();
+                    
+                    // Mensaje de error
+                    addMessageToChat('Lo siento, estoy teniendo problemas para responder en este momento. Por favor, intenta más tarde o contacta directamente a Angelo.', 'bot');
+                }
+            }
             
             /**
              * Función asíncrona para cargar los proyectos desde el archivo projects.json

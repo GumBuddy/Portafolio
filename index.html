@@ -1172,10 +1172,7 @@
                         const projectDescription = project.description;
                         const projectTechnologies = project.technologies;
                         const projectIcon = project.icon;
-                        const projectUrl = project.url; // Usar la nueva propiedad 'url'
-                        
-                        // Construir URLs para el proyecto y el código fuente
-                        const repoUrl = `https://github.com/${githubUsername}/${githubRepo}/blob/main/${projectFileName}`;
+                        const { url: projectUrl, repoUrl } = project; // Usar desestructuración para obtener ambas URLs
                         
                         // Crear elemento de tarjeta de proyecto
                         const projectCard = document.createElement('div');
@@ -1183,6 +1180,14 @@
                         // Almacenar tecnologías como atributo para facilitar el filtrado
                         projectCard.setAttribute('data-tech', projectTechnologies.join(',').toLowerCase());
                         
+                        // Crear el botón de "Ver Código" solo si repoUrl existe
+                        const codeButtonHtml = repoUrl 
+                            ? `
+                            <a href="${repoUrl}" target="_blank" class="btn btn-secondary">
+                                <i class="fas fa-code"></i>
+                                Ver Código
+                            </a>` 
+                            : '';
                         // Construir el HTML de la tarjeta
                         projectCard.innerHTML = `
                             <div class="project-image">
@@ -1201,10 +1206,7 @@
                                         <i class="fas fa-external-link-alt"></i>
                                         Ver Proyecto
                                     </a>
-                                    <a href="${repoUrl}" target="_blank" class="btn btn-secondary">
-                                        <i class="fas fa-code"></i>
-                                        Ver Código
-                                    </a>
+                                    ${codeButtonHtml}
                                 </div>
                             </div>
                         `;

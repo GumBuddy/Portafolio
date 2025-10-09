@@ -1035,19 +1035,26 @@
                             - **Desarrollador e Instructor - Servicio Social (UAC, 2019-2020):** Desarrolló una aplicación web de aprendizaje (ODA) con Java y diseñó bases de datos en MySQL y SQL Server. También actuó como mentor para estudiantes de nuevo ingreso, enseñando fundamentos de programación.
 
                             **3. PROYECTO DESTACADO (AUTÓNOMO):**
-                            - **RAKURL Security (2024-Actualidad):** Este es su proyecto más reciente y avanzado. Es una herramienta de seguridad web para cifrar enlaces 100% en el navegador del cliente.
+                            - **GCMiRinconcito (2024-Actualidad):** Su proyecto más reciente. Un sitio web completo para una granja cunícola usando una arquitectura JAMstack.
+                                - **Desafío Técnico Principal:** Crear una experiencia de usuario dinámica y fluida (simulando una SPA) usando solo Vanilla JavaScript, e integrar un chatbot inteligente con la API de Gemini a través de Netlify Functions para la atención al cliente.
+                                - **Rol de Angelo:** Líder del proyecto. Responsable de la arquitectura, el diseño de la UI/UX con TailwindCSS (incluyendo modo claro/oscuro), el desarrollo frontend en JavaScript puro, y la implementación del backend serverless en Node.js para la comunicación segura con la IA.
+                                - **Tecnologías:** HTML5, TailwindCSS, JavaScript (Vanilla), Netlify Functions, Node.js, Gemini API.
+
+                            - **RAKURL Security (Proyecto Anterior):** Una herramienta de seguridad web para cifrar enlaces 100% en el navegador del cliente.
                                 - **Desafío Técnico Principal:** Implementar algoritmos de criptografía de alto nivel (AES-256, PBKDF2, SHA-256) de forma segura en JavaScript.
                                 - **Rol de Angelo:** Fue el líder del proyecto, responsable de la arquitectura de seguridad, la dirección del desarrollo (aumentado por IA), el diseño de la UX/UI, y la implementación de funcionalidades complejas como el modo oscuro y la compartición nativa de archivos.
+                                - **Tecnologías:** JavaScript (ES6+), CryptoJS, Bootstrap 5.
 
                             **4. HABILIDADES CLAVE:**
                             - **Frontend:** JavaScript (ES6+), React, HTML5, CSS3, Bootstrap 5.
                             - **Backend:** Java, Python, PHP.
                             - **Bases de Datos:** MySQL, SQL Server.
-                            - **IA y Metodologías:** Dirección de desarrollo con IA Generativa, Prompt Engineering, Code Review, Desarrollo Ágil.
+                            - **IA y Metodologías:** Dirección de desarrollo con IA Generativa, Prompt Engineering, Code Review, Desarrollo Ágil, Arquitecturas Serverless (Netlify Functions).
 
                             **CÓMO MANEJAR PREGUNTAS:**
                             - Si un reclutador pregunta "¿Tiene experiencia con React?", puedes responder: "Sí, claro. De hecho, en sus prácticas profesionales en ITRENDS, utilizó React para construir el prototipo de un sistema de gestión de servidores."
-                            - Si preguntan por su proyecto más reciente, habla sobre RAKURL Security destacando su rol de liderazgo y los desafíos técnicos.
+                            - Si preguntan por su proyecto más reciente, habla sobre **GCMiRinconcito**, destacando su rol de liderazgo, el uso de Vanilla JS para una SPA simulada y la integración del chatbot con IA.
+                            - Si preguntan por proyectos de seguridad o criptografía, menciona **RAKURL Security** y los algoritmos que implementó.
                             - Si no conoces la respuesta o es sobre temas personales (como salario o valores,dilemas eticos o morales), responde con amabilidad: "Esa es una excelente pregunta para discutir directamente con Angelo. Te recomiendo escribirle a su email: azcorra97dev@outlook.com".
                         `;
                     
@@ -1165,9 +1172,9 @@
                         const projectDescription = project.description;
                         const projectTechnologies = project.technologies;
                         const projectIcon = project.icon;
+                        const projectUrl = project.url; // Usar la nueva propiedad 'url'
                         
                         // Construir URLs para el proyecto y el código fuente
-                        const projectUrl = `https://${githubUsername}.github.io/${githubRepo}/${projectFileName}`;
                         const repoUrl = `https://github.com/${githubUsername}/${githubRepo}/blob/main/${projectFileName}`;
                         
                         // Crear elemento de tarjeta de proyecto

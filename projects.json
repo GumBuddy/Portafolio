@@ -1,11 +1,21 @@
 [
   {
+    "id": "gcmirinconcito",
+    "fileName": "index.html",
+    "name": "GCMiRinconcito",
+    "description": "Sitio web moderno y totalmente responsivo para GCMiRinconcito, una granja cunícola. Incluye galerías interactivas, navegación intuitiva, un programa de fidelidad y un chatbot con IA (Gemini) para atención al cliente.",
+    "technologies": ["HTML5", "TailwindCSS", "JavaScript", "Netlify Functions", "Gemini API"],
+    "icon": "fas fa-paw",
+    "url": "https://gcmirinconcito.com/"
+  },
+  {
     "id": "rakurl-security",
     "fileName": "RAKURL.html",
     "name": "RAKURL Security",
     "description": "Herramienta de cifrado de enlaces del lado del cliente construida desde cero con un enfoque en la privacidad total, la usabilidad y un diseño profesional.",
     "technologies": ["JavaScript (ES6+)", "CryptoJS", "Bootstrap 5", "Accesibilidad (a11y)"],
-    "icon": "fas fa-shield-alt"
+    "icon": "fas fa-shield-alt",
+    "url": "https://gumbuddy.github.io/ECOP/RAKURL.html"
   },
   {
     "id": "otro-proyecto",
@@ -13,6 +23,7 @@
     "name": "Plantilla",
     "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
     "technologies": ["React", "CSS Modules", "API Rest"],
-    "icon": "fas fa-chart-line"
+    "icon": "fas fa-chart-line",
+    "url": "#"
   }
 ]

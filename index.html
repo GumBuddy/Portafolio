@@ -611,6 +611,93 @@
             border-bottom-left-radius: 5px;
         }
         
+        /* Estilos para contenido Markdown en mensajes */
+        .message-content {
+            line-height: 1.6;
+        }
+        
+        .message-content p {
+            margin: 0 0 10px 0;
+        }
+        
+        .message-content p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .message-content strong {
+            font-weight: 600;
+            color: inherit;
+        }
+        
+        .message-content em {
+            font-style: italic;
+        }
+        
+        .message-content ul, .message-content ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        
+        .message-content li {
+            margin: 4px 0;
+        }
+        
+        .message-content code {
+            background-color: rgba(0, 0, 0, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+        }
+        
+        .message.user .message-content code {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .message-content pre {
+            background-color: rgba(0, 0, 0, 0.08);
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .message-content pre code {
+            background: none;
+            padding: 0;
+        }
+        
+        .message-content h1, .message-content h2, .message-content h3 {
+            margin: 12px 0 8px 0;
+            font-weight: 600;
+        }
+        
+        .message-content h1 { font-size: 1.2em; }
+        .message-content h2 { font-size: 1.1em; }
+        .message-content h3 { font-size: 1em; }
+        
+        .message-content a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .message.user .message-content a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .message-content blockquote {
+            border-left: 3px solid var(--primary-color);
+            margin: 10px 0;
+            padding-left: 12px;
+            opacity: 0.9;
+        }
+        
+        .message-content hr {
+            border: none;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin: 12px 0;
+        }
+        
         .message-timestamp {
             font-size: 0.7rem;
             opacity: 0.7;
@@ -849,7 +936,16 @@
             </div>
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
-                    <p>¡Hola! Soy el asistente de GumBuddy. Puedes preguntarme sobre sus proyectos, habilidades técnicas, experiencia académica o cualquier otra duda que tengas. ¿En qué puedo ayudarte hoy?</p>
+                    <div class="message-content">
+                        <p>¡Hola! Soy <strong>Buddy</strong>, el asistente de Angelo. 👋</p>
+                        <p>Puedes preguntarme sobre:</p>
+                        <ul>
+                            <li>Sus <strong>proyectos</strong> (como AESTIMAI o GCMiRinconcito)</li>
+                            <li>Sus <strong>habilidades técnicas</strong></li>
+                            <li>Su <strong>experiencia profesional</strong></li>
+                        </ul>
+                        <p>¿En qué puedo ayudarte hoy?</p>
+                    </div>
                     <div class="message-timestamp">Ahora</div>
                 </div>
             </div>
@@ -959,6 +1055,73 @@
             }
             
             /**
+             * Función para convertir Markdown a HTML
+             * @param {string} text - Texto con formato Markdown
+             * @returns {string} - HTML formateado
+             */
+            function parseMarkdown(text) {
+                if (!text) return '';
+                
+                let html = text;
+                
+                // Escapar HTML para seguridad
+                html = html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                
+                // Bloques de código (```código```)
+                html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+                
+                // Código en línea (`código`)
+                html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+                
+                // Encabezados (### H3, ## H2, # H1)
+                html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+                html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+                html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+                
+                // Negritas (**texto** o __texto__)
+                html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+                
+                // Cursivas (*texto* o _texto_)
+                html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+                html = html.replace(/(?<!_)_([^_]+)_(?!_)/g, '<em>$1</em>');
+                
+                // Enlaces [texto](url)
+                html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+                
+                // Listas no ordenadas (- item o * item)
+                html = html.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+                html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+                
+                // Listas ordenadas (1. item)
+                html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+                
+                // Blockquotes (> texto)
+                html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+                
+                // Líneas horizontales (--- o ***)
+                html = html.replace(/^(---|\/\*\*\*)$/gm, '<hr>');
+                
+                // Saltos de línea dobles a párrafos
+                html = html.split(/\n\n+/).map(paragraph => {
+                    // No envolver elementos de bloque en <p>
+                    if (paragraph.match(/^<(h[1-6]|ul|ol|li|pre|blockquote|hr)/)) {
+                        return paragraph;
+                    }
+                    return `<p>${paragraph}</p>`;
+                }).join('');
+                
+                // Saltos de línea simples a <br> dentro de párrafos
+                html = html.replace(/([^>])\n([^<])/g, '$1<br>$2');
+                
+                // Limpiar párrafos vacíos
+                html = html.replace(/<p><\/p>/g, '');
+                html = html.replace(/<p>\s*<\/p>/g, '');
+                
+                return html;
+            }
+            
+            /**
              * Función para agregar un mensaje al chat
              * @param {string} text - Texto del mensaje
              * @param {string} sender - Remitente del mensaje ('user' o 'bot')
@@ -971,8 +1134,11 @@
                 const timeString = now.getHours().toString().padStart(2, '0') + ':' + 
                                  now.getMinutes().toString().padStart(2, '0');
                 
+                // Parsear Markdown solo para mensajes del bot
+                const formattedText = sender === 'bot' ? parseMarkdown(text) : text;
+                
                 messageElement.innerHTML = `
-                    <p>${text}</p>
+                    <div class="message-content">${formattedText}</div>
                     <div class="message-timestamp">${timeString}</div>
                 `;
                 

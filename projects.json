@@ -1,5 +1,14 @@
 [
   {
+    "id": "aestimai",
+    "fileName": "index.html",
+    "name": "AESTIMAI",
+    "description": "Plataforma EdTech SaaS que automatiza la creación de evaluaciones con IA generativa. Integra Google Gemini 2.0/1.5 Flash, arquitectura serverless con Firebase, sistema de pagos Stripe, proctoring en tiempo real e internacionalización (ES/EN). Cobertura de calidad con 251 tests unitarios (Vitest) y 21 E2E (Playwright).",
+    "technologies": ["React 18", "TypeScript", "Vite", "Tailwind CSS", "Firebase", "Google Gemini AI", "Stripe", "Vitest", "Playwright", "Vercel"],
+    "icon": "fas fa-brain",
+    "url": "https://aestimai.devprojects.space"
+  },
+  {
     "id": "gcmirinconcito",
     "fileName": "index.html",
     "name": "GCMiRinconcito",

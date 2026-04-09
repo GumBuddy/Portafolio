@@ -126,6 +126,11 @@
         .flip-card.is-flipped .flip-card-inner {
             transform: rotateY(180deg);
         }
+
+        /* Input Range Styling (Cuestionario) */
+        input[type=range] {
+            accent-color: #06b6d4;
+        }
     </style>
 </head>
 <body class="text-slate-200 selection:bg-cyan-500 selection:text-white antialiased">
@@ -175,7 +180,6 @@
 
     <!-- Hero Section -->
     <header class="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16 md:pt-20 md:pb-0" id="hero-container">
-        <!-- Background Decor & Gym Image Overlay -->
         <div class="absolute inset-0 -z-10 bg-[#020617]">
             <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070" class="w-full h-full object-cover opacity-10 sm:opacity-20 mix-blend-luminosity" alt="Gym Background">
             <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#020617] via-[#020617]/90 to-transparent"></div>
@@ -237,7 +241,7 @@
         </div>
     </header>
 
-    <!-- Quote Banner con Imagen Estratégica -->
+    <!-- Quote Banner -->
     <div class="py-16 md:py-24 relative border-y border-slate-900/50 overflow-hidden bg-[#020617]">
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070')] bg-cover bg-center opacity-10 sm:opacity-20 bg-fixed mix-blend-luminosity"></div>
         <div class="absolute inset-0 bg-gradient-to-r from-[#020617] via-transparent to-[#020617]"></div>
@@ -397,19 +401,17 @@
     </a>
 
     <!-- ==========================================
-         MODAL OCULTO SOBRE MÍ Y CERTIFICADOS (3D)
+         MODAL 1: OCULTO "SOBRE MÍ Y CERTIFICADOS (3D)"
          ========================================== -->
     <div id="about-modal" class="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-xl hidden opacity-0 transition-opacity duration-300 overflow-y-auto">
-        <!-- BOTÓN CERRAR: Fijo arriba a la derecha para móvil -->
+        <!-- BOTÓN CERRAR -->
         <button id="btn-close-about" class="fixed top-4 right-4 md:absolute md:top-10 md:right-10 w-12 h-12 md:w-14 md:h-14 bg-slate-900 hover:bg-red-500 text-white rounded-full flex items-center justify-center transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] z-[110] border border-slate-700 hover:border-red-500">
             <i data-lucide="x" class="w-5 h-5 md:w-6 md:h-6"></i>
         </button>
 
         <div class="min-h-screen p-4 pt-20 sm:p-6 sm:pt-24 md:p-12 lg:p-20 flex flex-col relative w-full max-w-[1600px] mx-auto">
-            
             <div class="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-                
-                <!-- Columna Izquierda: Foto del Entrenador -->
+                <!-- Columna Izquierda: Foto -->
                 <div class="lg:col-span-4 relative">
                     <div class="aspect-[4/5] w-full max-w-[280px] sm:max-w-md mx-auto rounded-[2rem] sm:rounded-[2.5rem] bg-slate-900 border-2 border-dashed border-cyan-500/40 relative overflow-hidden flex flex-col items-center justify-center group shadow-[0_0_50px_rgba(6,182,212,0.15)] relative lg:sticky top-6">
                         <i data-lucide="image" class="w-12 h-12 sm:w-16 sm:h-16 text-cyan-500/30 mb-3 sm:mb-4 group-hover:scale-110 transition-transform"></i>
@@ -418,52 +420,40 @@
                     </div>
                 </div>
 
-                <!-- Columna Derecha: Biografía y Certificaciones -->
+                <!-- Columna Derecha: Biografía y Certs -->
                 <div class="lg:col-span-8 space-y-12 sm:space-y-16">
-                    
                     <!-- Bio -->
                     <div class="space-y-6 sm:space-y-8 text-center lg:text-left">
                         <h2 class="text-4xl sm:text-5xl md:text-7xl font-black text-white uppercase tracking-tighter">Mi <br class="hidden lg:block"/><span class="text-cyan-400">Trayectoria</span></h2>
                         <div class="h-1 w-16 sm:w-24 bg-gradient-to-r from-cyan-400 to-blue-600 rounded-full mx-auto lg:mx-0"></div>
-                        
                         <div class="space-y-4 sm:space-y-6 text-slate-300 text-sm sm:text-base md:text-lg leading-relaxed font-medium text-left">
-                            <p>
-                                Con años de experiencia en el mundo del entrenamiento de fuerza y la estética corporal, mi filosofía se basa en un pilar inquebrantable: <strong class="text-white">cero modas pasajeras, pura ciencia aplicada.</strong>
-                            </p>
-                            <p>
-                                Como especialista, he dedicado mi carrera a desmentir mitos del fitness. Mi objetivo principal no es solo que levantes más peso o te veas mejor frente al espejo, sino que aprendas el <strong class="text-cyan-400">porqué</strong> detrás de cada movimiento.
-                            </p>
-                            <p>
-                                Ya sea que busques romper tus récords personales en los 3 grandes levantamientos (Sentadilla, Press de Banca, Peso Muerto) o maximizar la hipertrofia de grupos musculares específicos, mi metodología asegura un progreso medible, constante y sobre todo, libre de lesiones.
-                            </p>
+                            <p>Con años de experiencia en el mundo del entrenamiento de fuerza y la estética corporal, mi filosofía se basa en un pilar inquebrantable: <strong class="text-white">cero modas pasajeras, pura ciencia aplicada.</strong></p>
+                            <p>Como especialista, he dedicado mi carrera a desmentir mitos del fitness. Mi objetivo principal no es solo que levantes más peso o te veas mejor frente al espejo, sino que aprendas el <strong class="text-cyan-400">porqué</strong> detrás de cada movimiento.</p>
+                            <p>Ya sea que busques romper tus récords personales en los 3 grandes levantamientos o maximizar la hipertrofia, mi metodología asegura un progreso medible, constante y sobre todo, libre de lesiones.</p>
                         </div>
-
-                        <!-- Datos Rápidos -->
+                        <!-- Datos -->
                         <div class="grid grid-cols-2 gap-3 sm:gap-4 pt-4 sm:pt-6 max-w-lg mx-auto lg:mx-0 text-left">
                             <div class="bg-slate-900/80 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-800 border-l-4 border-l-cyan-500">
                                 <h4 class="text-2xl sm:text-3xl font-black text-white mb-1">+100</h4>
-                                <span class="text-[10px] sm:text-sm text-slate-400 font-bold uppercase tracking-widest">Alumnos<br/>Activos</span>
+                                <span class="text-[10px] sm:text-sm text-slate-400 font-bold uppercase tracking-widest">Alumnos Activos</span>
                             </div>
                             <div class="bg-slate-900/80 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-800 border-l-4 border-l-blue-500">
                                 <h4 class="text-2xl sm:text-3xl font-black text-white mb-1">100%</h4>
-                                <span class="text-[10px] sm:text-sm text-slate-400 font-bold uppercase tracking-widest">Enfoque<br/>Científico</span>
+                                <span class="text-[10px] sm:text-sm text-slate-400 font-bold uppercase tracking-widest">Enfoque Científico</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Certificaciones -->
+                    <!-- Certs Flip -->
                     <div class="pb-20 md:pb-0">
                         <h3 class="text-xl sm:text-2xl font-black text-white uppercase tracking-widest mb-6 sm:mb-8 flex items-center justify-center lg:justify-start gap-2 sm:gap-3">
                             <i data-lucide="award" class="text-cyan-400 w-6 h-6 sm:w-8 sm:h-8"></i> Mis Credenciales
                         </h3>
-                        
                         <div class="grid sm:grid-cols-2 gap-4 sm:gap-6">
-                            
-                            <!-- Tarjeta Flip 1: Powerlifting -->
+                            <!-- Flip 1 -->
                             <div class="flip-card perspective-1000 h-[280px] sm:h-[320px] cursor-pointer group" onclick="this.classList.toggle('is-flipped')">
                                 <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-2xl">
                                     <div class="flip-card-front absolute inset-0 backface-hidden bg-slate-900 rounded-[2rem] border-2 border-slate-800 group-hover:border-cyan-500/50 transition-colors flex flex-col items-center justify-center p-6 sm:p-8 text-center overflow-hidden">
-                                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=2069')] opacity-5 bg-cover bg-center"></div>
                                         <div class="bg-cyan-950/50 p-3 sm:p-4 rounded-full mb-4 sm:mb-6 relative z-10"><i data-lucide="medal" class="w-8 h-8 sm:w-12 sm:h-12 text-cyan-400"></i></div>
                                         <h4 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tight relative z-10">Programador de <br/>Powerlifting</h4>
                                         <div class="mt-4 sm:mt-6 inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-950 rounded-full text-[10px] sm:text-xs text-cyan-400 font-bold tracking-widest uppercase relative z-10">
@@ -472,19 +462,14 @@
                                     </div>
                                     <div class="flip-card-back rotate-y-180 absolute inset-0 backface-hidden bg-gradient-to-br from-cyan-900 to-blue-900 rounded-[2rem] border-2 border-cyan-400 flex flex-col items-center justify-center p-6 sm:p-8 text-center">
                                         <h4 class="text-lg sm:text-xl font-black text-white mb-3 sm:mb-4 uppercase">Fuerza Bruta</h4>
-                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">
-                                            Certificación que avala el conocimiento avanzado en biomecánica, periodización ondulante y control de fatiga para llevar al máximo exponente la Sentadilla, Press de Banca y Peso Muerto.
-                                        </p>
-                                        <i data-lucide="undo-2" class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300 mt-6 sm:mt-8 opacity-70"></i>
+                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">Certificación que avala el conocimiento avanzado en biomecánica, periodización ondulante y control de fatiga.</p>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Tarjeta Flip 2: Hipertrofia -->
+                            <!-- Flip 2 -->
                             <div class="flip-card perspective-1000 h-[280px] sm:h-[320px] cursor-pointer group" onclick="this.classList.toggle('is-flipped')">
                                 <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-2xl">
                                     <div class="flip-card-front absolute inset-0 backface-hidden bg-slate-900 rounded-[2rem] border-2 border-slate-800 group-hover:border-cyan-500/50 transition-colors flex flex-col items-center justify-center p-6 sm:p-8 text-center overflow-hidden">
-                                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=2070')] opacity-5 bg-cover bg-center"></div>
                                         <div class="bg-cyan-950/50 p-3 sm:p-4 rounded-full mb-4 sm:mb-6 relative z-10"><i data-lucide="dumbbell" class="w-8 h-8 sm:w-12 sm:h-12 text-cyan-400"></i></div>
                                         <h4 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tight relative z-10">Certificado en <br/>Hipertrofia</h4>
                                         <div class="mt-4 sm:mt-6 inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-950 rounded-full text-[10px] sm:text-xs text-cyan-400 font-bold tracking-widest uppercase relative z-10">
@@ -493,19 +478,14 @@
                                     </div>
                                     <div class="flip-card-back rotate-y-180 absolute inset-0 backface-hidden bg-gradient-to-br from-cyan-900 to-blue-900 rounded-[2rem] border-2 border-cyan-400 flex flex-col items-center justify-center p-6 sm:p-8 text-center">
                                         <h4 class="text-lg sm:text-xl font-black text-white mb-3 sm:mb-4 uppercase">Crecimiento Muscular</h4>
-                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">
-                                            Dominio de los mecanismos de hipertrofia. Creación de rutinas que estimulan la síntesis proteica óptima sin caer en el sobreentrenamiento (junk volume).
-                                        </p>
-                                        <i data-lucide="undo-2" class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300 mt-6 sm:mt-8 opacity-70"></i>
+                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">Dominio de los mecanismos de hipertrofia. Creación de rutinas que estimulan la síntesis proteica óptima sin caer en el sobreentrenamiento.</p>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Tarjeta Flip 3: Glúteo -->
+                            <!-- Flip 3 -->
                             <div class="flip-card perspective-1000 h-[280px] sm:h-[320px] cursor-pointer group sm:col-span-2 md:w-1/2 md:mx-auto md:col-span-2" onclick="this.classList.toggle('is-flipped')">
                                 <div class="flip-card-inner relative w-full h-full transform-style-3d shadow-2xl">
                                     <div class="flip-card-front absolute inset-0 backface-hidden bg-slate-900 rounded-[2rem] border-2 border-slate-800 group-hover:border-cyan-500/50 transition-colors flex flex-col items-center justify-center p-6 sm:p-8 text-center overflow-hidden">
-                                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=2070')] opacity-5 bg-cover bg-center"></div>
                                         <div class="bg-cyan-950/50 p-3 sm:p-4 rounded-full mb-4 sm:mb-6 relative z-10"><i data-lucide="flame" class="w-8 h-8 sm:w-12 sm:h-12 text-cyan-400"></i></div>
                                         <h4 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tight relative z-10">Hipertrofia de <br/>Glúteo</h4>
                                         <div class="mt-4 sm:mt-6 inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-950 rounded-full text-[10px] sm:text-xs text-cyan-400 font-bold tracking-widest uppercase relative z-10">
@@ -514,18 +494,251 @@
                                     </div>
                                     <div class="flip-card-back rotate-y-180 absolute inset-0 backface-hidden bg-gradient-to-br from-cyan-900 to-blue-900 rounded-[2rem] border-2 border-cyan-400 flex flex-col items-center justify-center p-6 sm:p-8 text-center">
                                         <h4 class="text-lg sm:text-xl font-black text-white mb-3 sm:mb-4 uppercase">Especialización Inferior</h4>
-                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">
-                                            Enfoque específico en la anatomía y vectores de fuerza para el desarrollo de los músculos de la cadena posterior. Selección de ejercicios clave para resultados estéticos y funcionales insuperables.
-                                        </p>
-                                        <i data-lucide="undo-2" class="w-5 h-5 sm:w-6 sm:h-6 text-cyan-300 mt-6 sm:mt-8 opacity-70"></i>
+                                        <p class="text-cyan-100 font-medium text-xs sm:text-sm leading-relaxed">Enfoque específico en la anatomía y vectores de fuerza para el desarrollo de los músculos de la cadena posterior.</p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- ==========================================
+         MODAL 2: FORMULARIO CLIENTES (OCULTO - URL TRIGGER)
+         ========================================== -->
+    <div id="cuestionario-modal" class="fixed inset-0 z-[200] bg-slate-950 overflow-y-auto hidden opacity-0 transition-opacity duration-300">
+        <div class="min-h-screen py-10 px-4 sm:px-6 relative">
+            <div class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+                
+                <!-- Encabezado Formulario -->
+                <div class="text-center mb-10 border-b border-slate-800 pb-8">
+                    <i data-lucide="clipboard-edit" class="w-16 h-16 text-cyan-500 mx-auto mb-4"></i>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tighter uppercase mb-3">Tu camino empieza aquí</h2>
+                    <p class="text-slate-400">Este formulario nos ayudará a entender tu situación actual y objetivos para diseñar un plan 100% adaptado a ti.</p>
+                </div>
+
+                <!-- Contenedor Éxito -->
+                <div id="cuestionario-success" class="hidden text-center py-10">
+                    <div class="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="check-circle" class="w-12 h-12 text-green-500"></i>
+                    </div>
+                    <h3 class="text-3xl font-black text-white mb-4">¡Perfil Generado!</h3>
+                    <p class="text-slate-300 text-lg mb-8 max-w-md mx-auto">Se ha descargado un archivo con tu información. Por favor, <strong>envíale ese archivo a Agustín por WhatsApp</strong> para iniciar tu asesoría.</p>
+                    <a href="https://wa.me/5219811152620?text=Hola%20Agustín,%20aquí%20tienes%20mi%20archivo%20de%20evaluación%20inicial." target="_blank" class="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-[#25D366] text-white font-black text-lg hover:scale-105 transition-transform">
+                        <i data-lucide="message-circle" class="w-6 h-6"></i> Enviar Archivo a Agustín
+                    </a>
+                </div>
+
+                <!-- Formulario Físico -->
+                <form id="cuestionario-form" class="space-y-12">
+                    
+                    <!-- Sección 1: Básico -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-cyan-400 border-l-4 border-cyan-400 pl-3">1. Información y Disponibilidad</h3>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Correo electrónico *</label>
+                            <input type="email" name="correo" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">¿Cuántos días a la semana puedes entrenar?</label>
+                            <select name="dias_semana" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                                <option value="1-2 días">1-2 días</option>
+                                <option value="3 días">3 días</option>
+                                <option value="4 días">4 días</option>
+                                <option value="5 días">5 días</option>
+                                <option value="6-7 días">6-7 días</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Días específicos de entrenamiento:</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Lunes" class="w-4 h-4 accent-cyan-500"> Lunes</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Martes" class="w-4 h-4 accent-cyan-500"> Martes</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Miércoles" class="w-4 h-4 accent-cyan-500"> Miércoles</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Jueves" class="w-4 h-4 accent-cyan-500"> Jueves</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Viernes" class="w-4 h-4 accent-cyan-500"> Viernes</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Sábado" class="w-4 h-4 accent-cyan-500"> Sábado</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="dias_esp" value="Domingo" class="w-4 h-4 accent-cyan-500"> Domingo</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Horas disponibles por día (ej. 1:30 hrs)</label>
+                            <input type="text" name="horas_disp" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Objetivos Principales:</label>
+                            <textarea name="objetivos" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculos de MÁXIMA Prioridad (3-4)</label>
+                                <input type="text" name="musculos_max" placeholder="Ej. Glúteo, Espalda..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculos de MEDIANA Prioridad (4-6)</label>
+                                <input type="text" name="musculos_med" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
                         </div>
                     </div>
 
-                </div>
+                    <!-- Sección 2: Hábitos -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-cyan-400 border-l-4 border-cyan-400 pl-3">2. Hábitos y Estilo de Vida</h3>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Calidad de descanso (1: Pésimo - 10: Excelente)</label>
+                            <div class="flex items-center gap-4">
+                                <span>1</span>
+                                <input type="range" name="descanso" min="1" max="10" value="5" class="w-full">
+                                <span>10</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Describe tu rutina post-entreno y ciclo de sueño:</label>
+                            <textarea name="rutina_sueño" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Describe un día común de tu alimentación actual:</label>
+                            <textarea name="alimentacion" rows="3" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">¿Tienes plan alimenticio formal?</label>
+                            <select name="plan_alim" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                                <option value="Sí formal">Sí, formal</option>
+                                <option value="Sí, pero no estructurado">Sí, con objetivos pero libre</option>
+                                <option value="No, libre">No, 100% libre</option>
+                                <option value="Prefiero no responder">Prefiero no responder</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sección 3: Perfil Muscular -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-cyan-400 border-l-4 border-cyan-400 pl-3">3. Perfil Muscular</h3>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculo Favorito</label>
+                                <input type="text" name="musc_fav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculo Menos Favorito</label>
+                                <input type="text" name="musc_menos_fav" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculo Más Fuerte</label>
+                                <input type="text" name="musc_fuerte" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Músculo Más Débil (Debilidad)</label>
+                                <input type="text" name="musc_debil" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">¿Te aburres de la rutina fácilmente?</label>
+                            <select name="aburrimiento" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                                <option value="Sí, necesito variedad">Sí, me aburro y necesito variedad</option>
+                                <option value="A veces">A veces, pero puedo seguir una rutina</option>
+                                <option value="No">No, la monotonía no es problema</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Sección 4: Salud -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-cyan-400 border-l-4 border-cyan-400 pl-3">4. Salud y Condición Física</h3>
+                        
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Lesiones importantes (Detalla):</label>
+                            <textarea name="lesiones" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Molestias al entrenar (Selecciona):</label>
+                            <div class="grid sm:grid-cols-2 gap-3 text-sm">
+                                <label class="flex items-center gap-2"><input type="checkbox" name="molestias" value="Cansancio excesivo" class="accent-cyan-500 w-4 h-4"> Cansancio excesivo</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="molestias" value="Rigidez" class="accent-cyan-500 w-4 h-4"> Rigidez</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="molestias" value="Adormecimiento" class="accent-cyan-500 w-4 h-4"> Adormecimiento</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="molestias" value="Dolor" class="accent-cyan-500 w-4 h-4"> Dolor/Molestia específica</label>
+                                <label class="flex items-center gap-2"><input type="checkbox" name="molestias" value="Ninguna" class="accent-cyan-500 w-4 h-4"> Ninguna</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Si sentiste dolor/molestia, detalla aquí:</label>
+                            <textarea name="detalle_dolor" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Sección 5: Antecedentes Deportivos -->
+                    <div class="space-y-6">
+                        <h3 class="text-xl font-bold text-cyan-400 border-l-4 border-cyan-400 pl-3">5. Antecedentes Deportivos</h3>
+                        
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Experiencia Previa (Gimnasio/Deporte):</label>
+                                <textarea name="exp_previa" placeholder="Años, deportes jugados..." rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Actividad Actual (Estructura, tiempo):</label>
+                                <textarea name="actividad_actual" placeholder="Qué haces hoy en día..." rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Objetivo deportivo específico (Ej. Competencia):</label>
+                            <input type="text" name="obj_deportivo" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-300 mb-2">Nivel de experiencia en Fuerza (1: Novato - 10: Experto)</label>
+                            <div class="flex items-center gap-4">
+                                <span>1</span>
+                                <input type="range" name="nivel_fuerza" min="1" max="10" value="3" class="w-full">
+                                <span>10</span>
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Lugar de entrenamiento</label>
+                                <select name="lugar" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-cyan-500">
+                                    <option value="Gimnasio Comercial">Gimnasio Comercial</option>
+                                    <option value="Casa">Casa</option>
+                                    <option value="Funcional/Crossfit">Funcional / Crossfit</option>
+                                    <option value="Aire libre">Aire Libre</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-slate-300 mb-2">Motivación a largo plazo (1 a 5)</label>
+                                <div class="flex items-center gap-4 mt-3">
+                                    <span>1</span>
+                                    <input type="range" name="motivacion" min="1" max="5" value="5" class="w-full">
+                                    <span>5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botón Submit -->
+                    <div class="pt-8 border-t border-slate-800">
+                        <button type="submit" class="w-full btn-glow-pulse relative z-10 px-8 py-5 rounded-xl bg-cyan-500 text-slate-950 font-black text-xl hover:bg-white hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
+                            <i data-lucide="download" class="w-6 h-6"></i> Generar y Descargar mi Perfil
+                        </button>
+                        <p class="text-slate-500 text-xs text-center mt-4">Al hacer clic se descargará un archivo que deberás enviarle a Agustín.</p>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -556,7 +769,7 @@
             if (isMenuOpen) {
                 mobileMenu.classList.remove('hidden');
                 menuIcon.setAttribute('data-lucide', 'x');
-                document.body.style.overflow = 'hidden'; // Evita scroll cuando menú está abierto
+                document.body.style.overflow = 'hidden'; 
             } else {
                 mobileMenu.classList.add('hidden');
                 menuIcon.setAttribute('data-lucide', 'menu');
@@ -575,7 +788,7 @@
             });
         });
 
-        // 4. Parallax Sutil en el Hero (Orbes)
+        // 4. Parallax Sutil en el Hero
         const orb1 = document.getElementById('orb-1');
         const orb2 = document.getElementById('orb-2');
         const heroContainer = document.getElementById('hero-container');
@@ -584,13 +797,12 @@
             heroContainer.addEventListener('mousemove', (e) => {
                 const x = e.clientX / window.innerWidth;
                 const y = e.clientY / window.innerHeight;
-                
                 orb1.style.transform = `translate(${x * 50}px, ${y * 50}px)`;
                 orb2.style.transform = `translate(-${x * 40}px, -${y * 40}px)`;
             });
         }
 
-        // 5. Scroll Reveal con Intersection Observer
+        // 5. Scroll Reveal
         const revealElements = document.querySelectorAll('.reveal');
         const revealOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
 
@@ -612,7 +824,7 @@
 
         if (carousel && btnLeft && btnRight) {
             const scrollRight = () => {
-                const cardWidth = carousel.querySelector('div').offsetWidth + 16; // ancho + gap aproximado
+                const cardWidth = carousel.querySelector('div').offsetWidth + 16;
                 if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
                     carousel.scrollTo({ left: 0, behavior: 'smooth' });
                 } else {
@@ -636,10 +848,10 @@
             startAutoScroll();
         }
 
-        // 7. AÑO ACTUAL
+        // 7. Año actual
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // 8. LÓGICA DEL MODAL OCULTO "SOBRE MÍ"
+        // 8. LÓGICA MODAL "SOBRE MÍ"
         const aboutModal = document.getElementById('about-modal');
         const btnOpenAbout = document.getElementById('btn-open-about');
         const btnCloseAbout = document.getElementById('btn-close-about');
@@ -659,6 +871,116 @@
                     card.classList.remove('is-flipped');
                 });
             }, 300);
+        });
+
+        // 9. LÓGICA FORMULARIO OCULTO (URL TRIGGER) Y DESCARGA HTML
+        const formModal = document.getElementById('cuestionario-modal');
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Abrir si el link tiene ?cuestionario=true
+        if (urlParams.get('cuestionario') === 'true') {
+            formModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Bloquear scroll base
+            setTimeout(() => formModal.classList.remove('opacity-0'), 10);
+        }
+
+        // Manejar el submit y descargar
+        document.getElementById('cuestionario-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Extraer info
+            const fd = new FormData(this);
+            const data = {};
+            for (let [key, value] of fd.entries()) {
+                if (data[key]) {
+                    data[key] += ', ' + value; // Unir checkboxes como días de semana
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Generar Plantilla HTML Offline Premium para el Coach
+            const fileHtml = `
+            <!DOCTYPE html>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <title>Evaluación - ${data.correo || 'Nuevo Cliente'}</title>
+                <style>
+                    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #cbd5e1; padding: 40px 20px; line-height: 1.6; }
+                    .container { max-width: 800px; margin: 0 auto; background: #1e293b; padding: 40px; border-radius: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+                    .header { border-bottom: 2px solid #06b6d4; padding-bottom: 20px; margin-bottom: 30px; }
+                    h1 { color: #fff; font-size: 2.5rem; margin: 0; }
+                    h2 { color: #22d3ee; margin-top: 40px; padding-bottom: 10px; border-bottom: 1px solid #334155; }
+                    .field { margin-bottom: 15px; }
+                    .label { color: #94a3b8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; display: block; margin-bottom: 5px; }
+                    .value { color: #fff; font-size: 1.1rem; background: #0f172a; padding: 12px 16px; border-radius: 8px; border: 1px solid #334155; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Reporte de Nuevo Cliente</h1>
+                        <div class="field mt-4">
+                            <span class="label">Correo de Contacto:</span>
+                            <div class="value" style="color: #38bdf8;">${data.correo || 'No especificado'}</div>
+                        </div>
+                    </div>
+
+                    <h2>1. Disponibilidad y Objetivos</h2>
+                    <div class="field"><span class="label">Días a la semana:</span><div class="value">${data.dias_semana || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Días específicos:</span><div class="value">${data.dias_esp || 'Ninguno'}</div></div>
+                    <div class="field"><span class="label">Horas disponibles:</span><div class="value">${data.horas_disp || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Objetivos Principales:</span><div class="value">${data.objetivos || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Músculos MAX Prioridad:</span><div class="value">${data.musculos_max || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Músculos MED Prioridad:</span><div class="value">${data.musculos_med || 'No contestó'}</div></div>
+
+                    <h2>2. Hábitos y Estilo de Vida</h2>
+                    <div class="field"><span class="label">Calidad de Descanso (1-10):</span><div class="value">${data.descanso || 'No contestó'} / 10</div></div>
+                    <div class="field"><span class="label">Rutina post-entreno y sueño:</span><div class="value">${data.rutina_sueño || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Alimentación actual:</span><div class="value">${data.alimentacion || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Plan alimenticio:</span><div class="value">${data.plan_alim || 'No contestó'}</div></div>
+
+                    <h2>3. Perfil Muscular</h2>
+                    <div class="field"><span class="label">Músculo Favorito:</span><div class="value">${data.musc_fav || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Músculo Menos Favorito:</span><div class="value">${data.musc_menos_fav || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Músculo Más Fuerte:</span><div class="value">${data.musc_fuerte || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Músculo Más Débil:</span><div class="value">${data.musc_debil || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">¿Se aburre fácilmente?:</span><div class="value">${data.aburrimiento || 'No contestó'}</div></div>
+
+                    <h2>4. Salud y Físico</h2>
+                    <div class="field"><span class="label">Lesiones:</span><div class="value">${data.lesiones || 'Ninguna'}</div></div>
+                    <div class="field"><span class="label">Molestias al entrenar:</span><div class="value">${data.molestias || 'Ninguna'}</div></div>
+                    <div class="field"><span class="label">Detalle dolor:</span><div class="value">${data.detalle_dolor || 'N/A'}</div></div>
+
+                    <h2>5. Antecedentes Deportivos</h2>
+                    <div class="field"><span class="label">Experiencia previa:</span><div class="value">${data.exp_previa || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Actividad actual:</span><div class="value">${data.actividad_actual || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Objetivo deportivo (Competencia):</span><div class="value">${data.obj_deportivo || 'Ninguno'}</div></div>
+                    <div class="field"><span class="label">Nivel de Fuerza (1-10):</span><div class="value">${data.nivel_fuerza || 'No contestó'} / 10</div></div>
+                    <div class="field"><span class="label">Lugar de entrenamiento:</span><div class="value">${data.lugar || 'No contestó'}</div></div>
+                    <div class="field"><span class="label">Motivación a largo plazo (1-5):</span><div class="value">${data.motivacion || 'No contestó'} / 5</div></div>
+                </div>
+            </body>
+            </html>
+            `;
+
+            // Descargar archivo
+            const blob = new Blob([fileHtml], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            // Limpia el correo para usarlo de nombre de archivo
+            const safeEmail = (data.correo || 'Cliente').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            a.download = `Perfil_Entrenamiento_${safeEmail}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Cambiar pantalla a ÉXITO
+            document.getElementById('cuestionario-form').classList.add('hidden');
+            document.getElementById('cuestionario-success').classList.remove('hidden');
         });
     </script>
 </body>

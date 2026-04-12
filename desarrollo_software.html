@@ -488,6 +488,147 @@
             color: var(--text-main);
             border-color: rgba(255, 255, 255, 0.3);
         }
+
+        /* ========================================================
+           PRECIOS (Desarrollo Web)
+           ======================================================== */
+        .pricing-section {
+            padding: 60px 0;
+            background: linear-gradient(to bottom, var(--bg-dark), var(--bg-darker));
+            position: relative;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            padding: 40px 24px;
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pricing-card:hover {
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.popular {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--accent-1);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+            z-index: 2;
+        }
+
+        .popular-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .tier-name {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .tier-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 5px;
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .tier-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .pricing-card.popular .tier-price {
+            background: linear-gradient(135deg, #fff, var(--accent-1));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tier-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .features li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+
+        .features i {
+            color: var(--accent-1);
+            font-size: 1.1rem;
+            margin-top: 2px;
+        }
+
+        .pricing-card.popular .features i {
+            color: var(--accent-1);
+        }
+
+        .btn-pricing {
+            width: 100%;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-pricing:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .pricing-card.popular .btn-pricing {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border: none;
+            color: white;
+        }
         
         /* Sección de Contacto */
         .contact-section {
@@ -928,6 +1069,10 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 25px;
             }
+
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
             
             .project-buttons {
                 flex-direction: row; /* Botones de tarjeta lado a lado */
@@ -952,7 +1097,7 @@
 
             header { padding: 120px 0; }
             .section-title { margin-bottom: 80px; }
-            .about-section, .skills-section, .projects-section, .contact-section { padding: 100px 0; }
+            .about-section, .skills-section, .projects-section, .pricing-section, .contact-section { padding: 100px 0; }
             
             .about-section .glass-panel { padding: 60px 40px; }
 
@@ -962,6 +1107,10 @@
             .projects-container { grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; }
             .project-image { height: 200px; }
             .project-icon { font-size: 4rem; }
+
+            .pricing-grid { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+            .pricing-card.popular { transform: scale(1.05); }
+            .pricing-card.popular:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 0 60px rgba(59, 130, 246, 0.4); }
 
             .contact-container { padding: 60px 40px; }
             .contact-link:hover { transform: translateY(-5px); }
@@ -1050,6 +1199,78 @@
         </div>
     </section>
     
+    <!-- Sección de Precios Dev (NUEVA) -->
+    <section id="precios-dev" class="pricing-section">
+        <div class="container">
+            <h2 class="section-title fade-in">Inversión en Arquitectura Web</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-bottom: 50px; font-size: 1.1rem; max-width: 700px; margin-left: auto; margin-right: auto;" class="fade-in">
+                Soluciones de software escalables diseñadas para rendir. Desde landing pages ultra-rápidas hasta sistemas complejos impulsados por IA.
+            </p>
+            
+            <div class="pricing-grid">
+                
+                <!-- Presencia Digital -->
+                <div class="glass-panel pricing-card fade-in">
+                    <h3 class="tier-name">Presencia Digital</h3>
+                    <div class="tier-price">$6,900+ <span>MXN</span></div>
+                    <p class="tier-desc">Ideal para negocios y marcas que necesitan una vitrina profesional y ultra-rápida.</p>
+                    
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> <span>Diseño Web UI/UX Personalizado</span></li>
+                        <li><i class="fas fa-check"></i> <span>Sitio Responsive (Mobile First)</span></li>
+                        <li><i class="fas fa-check"></i> <span>Optimización SEO Básica y Rendimiento</span></li>
+                        <li><i class="fas fa-check"></i> <span>Integración de WhatsApp y Formularios</span></li>
+                        <li><i class="fas fa-check"></i> <span>Despliegue y Configuración de Dominio</span></li>
+                    </ul>
+                    
+                    <a href="agendar.html" class="btn btn-pricing">
+                        Agendar Proyecto
+                    </a>
+                </div>
+
+                <!-- Plataforma Interactiva -->
+                <div class="glass-panel pricing-card popular fade-in">
+                    <div class="popular-badge">El más elegido</div>
+                    <h3 class="tier-name">Plataforma Interactiva</h3>
+                    <div class="tier-price">$14,500+ <span>MXN</span></div>
+                    <p class="tier-desc">Para empresas que requieren lógica de negocio, bases de datos o gestión de usuarios.</p>
+                    
+                    <ul class="features">
+                        <li><i class="fas fa-layer-group"></i> <span><strong>Todo lo de Presencia Digital</strong></span></li>
+                        <li><i class="fas fa-database"></i> <span>Base de Datos y Panel de Administración</span></li>
+                        <li><i class="fas fa-users"></i> <span>Sistema de Autenticación de Usuarios</span></li>
+                        <li><i class="fas fa-credit-card"></i> <span>Integración de Pasarela de Pagos (Stripe/PayPal)</span></li>
+                        <li><i class="fas fa-server"></i> <span>Arquitectura Frontend Moderna (React/Node)</span></li>
+                    </ul>
+                    
+                    <a href="agendar.html" class="btn btn-pricing">
+                        Diseñar Plataforma
+                    </a>
+                </div>
+
+                <!-- Sistemas con IA -->
+                <div class="glass-panel pricing-card fade-in">
+                    <h3 class="tier-name">Sistemas Tech & IA</h3>
+                    <div class="tier-price">$25,000+ <span>MXN</span></div>
+                    <p class="tier-desc">Para startups o corporativos buscando automatización profunda y soluciones Cloud.</p>
+                    
+                    <ul class="features">
+                        <li><i class="fas fa-check"></i> <span>Arquitectura de Software a Medida</span></li>
+                        <li><i class="fas fa-brain"></i> <span><strong>Integración de Inteligencia Artificial (OpenAI)</strong></span></li>
+                        <li><i class="fas fa-cloud"></i> <span>Infraestructura Cloud Escalable (AWS/Firebase)</span></li>
+                        <li><i class="fas fa-shield-alt"></i> <span>Seguridad Avanzada y Auditoría</span></li>
+                        <li><i class="fas fa-cogs"></i> <span>Automatización de Procesos Complejos</span></li>
+                    </ul>
+                    
+                    <a href="agendar.html" class="btn btn-pricing">
+                        Consultoría Tech
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- Sección de Contacto -->
     <section class="contact-section">
         <div class="container">

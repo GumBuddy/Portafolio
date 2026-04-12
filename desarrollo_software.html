@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Portafolio de Angelo Azcorra - Ingeniero de Software especializado en desarrollo de productos funcionales y seguros">
-    <meta name="keywords" content="Ingeniero de Software, Desarrollo Web, Portafolio, Angelo Azcorra, GumBuddy">
+    <meta name="description" content="Portafolio de Angelo Azcorra - Ingeniero en Sistemas Computacionales especializado en desarrollo de productos funcionales y seguros">
+    <meta name="keywords" content="Ingeniero en Sistemas Computacionales, Desarrollo Web, Portafolio, Angelo Azcorra, GumBuddy">
     <meta name="author" content="Angelo Azcorra">
-    <title>Angelo Azcorra | Ingeniero de Software</title>
+    <title>Angelo Azcorra | Ingeniero en Sistemas Computacionales</title>
     
     <!-- Fuentes -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -909,7 +909,7 @@
         <div class="container glass-panel">
             <h2 class="section-title fade-in">Sobre Mí</h2>
             <div class="about-content fade-in">
-                <p>Ingeniero de Software con una pasión por transformar ideas en productos funcionales y seguros. Con experiencia en el ciclo de vida completo del desarrollo, mi enfoque es liderar proyectos desde la conceptualización y el diseño de la arquitectura hasta la implementación final, asegurando una alta calidad técnica y una experiencia de usuario excepcional. Soy experto en dirigir flujos de trabajo eficientes, apalancando herramientas de IA para acelerar el desarrollo sin comprometer la robustez del código.</p>
+                <p>Ingeniero en Sistemas Computacionales con una pasión por transformar ideas en productos funcionales y seguros. Con experiencia en el ciclo de vida completo del desarrollo, mi enfoque es liderar proyectos desde la conceptualización y el diseño de la arquitectura hasta la implementación final, asegurando una alta calidad técnica y una experiencia de usuario excepcional. Soy experto en dirigir flujos de trabajo eficientes, apalancando herramientas de IA para acelerar el desarrollo sin comprometer la robustez del código.</p>
             </div>
         </div>
     </section>
@@ -996,7 +996,7 @@
                 <img src="Assets/Angelo Azcorra Identidad Visual.svg" alt="Angelo Azcorra Logo" style="height: 30px;">
                 <div class="text-gradient" style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.2rem;">GumBuddy</div>
             </div>
-            <p>© 2024 Angelo Azcorra | Ingeniero de Software. Todos los derechos reservados.</p>
+            <p>© 2024 Angelo Azcorra | Ingeniero en Sistemas Computacionales. Todos los derechos reservados.</p>
         </div>
     </footer>
     
@@ -1054,7 +1054,7 @@
             
             // Configuración del efecto de escritura Typed.js
             const typedConfig = {
-                strings: ['Ingeniero de Software', 'Desarrollador de Productos', 'Apasionado por la Tecnología'],
+                strings: ['Ingeniero en Sistemas Computacionales', 'Desarrollador de Productos', 'Apasionado por la Tecnología'],
                 typeSpeed: 50,
                 backSpeed: 30,
                 loop: true,
@@ -1341,6 +1341,7 @@
                     // Recopilar todas las tecnologías de los proyectos
                     projectsData.forEach(project => {
                         project.technologies.forEach(tech => {
+                            if (tech.toLowerCase() === 'plantilla') return;
                             allTechnologies.add(tech);
                         });
                     });
@@ -1377,6 +1378,7 @@
                         const projectName = project.name;
                         const projectDescription = project.description;
                         const projectTechnologies = project.technologies;
+                        const visibleTechnologies = projectTechnologies.filter(tech => tech.toLowerCase() !== 'plantilla');
                         const projectIcon = project.icon;
                         const { url: projectUrl, repoUrl } = project;
                         
@@ -1385,7 +1387,7 @@
                         projectCard.className = 'project-card glass-panel fade-in';
                         
                         // Almacenar tecnologías como atributo para facilitar el filtrado
-                        projectCard.setAttribute('data-tech', projectTechnologies.join(',').toLowerCase());
+                        projectCard.setAttribute('data-tech', visibleTechnologies.join(',').toLowerCase());
                         
                         // Crear el botón de "Ver Código" solo si repoUrl existe
                         const codeButtonHtml = repoUrl 
@@ -1407,7 +1409,7 @@
                             <div class="project-content">
                                 <p class="project-description">${projectDescription}</p>
                                 <div class="tech-tags">
-                                    ${projectTechnologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                                    ${visibleTechnologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
                                 </div>
                                 <div class="project-buttons">
                                     <a href="${projectUrl}" target="_blank" class="btn btn-primary">

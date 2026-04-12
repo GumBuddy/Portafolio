@@ -440,24 +440,184 @@
             text-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
-        .custom-offer-mini {
-            margin: 0 auto 24px;
-            max-width: 620px;
-            padding: 16px;
-            border-radius: 14px;
-            background: rgba(15, 23, 42, 0.55);
-            border: 1px solid rgba(236, 72, 153, 0.25);
+        /* Estilos Premium para la caja "Algo a medida" */
+        .custom-project-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.9));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 600px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            transition: var(--transition);
         }
 
-        .custom-offer-mini h3 {
-            font-size: 1.1rem;
-            margin-bottom: 8px;
+        .custom-project-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(236, 72, 153, 0.5);
+            box-shadow: 0 25px 50px rgba(236, 72, 153, 0.15);
         }
 
-        .custom-offer-mini p {
-            color: #cbd5e1;
-            font-size: 0.92rem;
+        .custom-project-glow {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+            background: rgba(139, 92, 246, 0.5);
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .custom-project-icon {
+            font-size: 2.2rem;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-project-card h3 {
+            font-size: 1.6rem;
+            color: #fff;
             margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-project-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-btn {
+            width: 100%;
+            max-width: 320px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portfolio-divider {
+            margin-top: 20px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* ---------------------------------------------------------
+           1. SECCION A: TARJETA "SOLUCIONES A LA MEDIDA"
+           --------------------------------------------------------- */
+        .custom-project-wrapper {
+            padding: 40px 0 80px;
+        }
+
+        .custom-project-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.9));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .custom-project-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(236, 72, 153, 0.5);
+            box-shadow: 0 25px 50px rgba(236, 72, 153, 0.15);
+        }
+
+        .custom-project-glow {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+            background: rgba(139, 92, 246, 0.5);
+            filter: blur(60px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .custom-project-icon {
+            font-size: 2.2rem;
+            color: var(--accent-2);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-project-card h3 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-project-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ---------------------------------------------------------
+           2. SECCION B: CROSS-SELL "DESARROLLO DE SOFTWARE"
+           --------------------------------------------------------- */
+        .dev-cross-sell {
+            padding: 80px 20px;
+            background: linear-gradient(to right, rgba(2, 6, 23, 0.95), rgba(15, 23, 42, 0.9)),
+                        url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
+            background-attachment: fixed;
+            text-align: center;
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            position: relative;
+        }
+
+        .dev-cross-sell::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg-darker) 100%);
+            pointer-events: none;
+        }
+
+        .dev-cross-sell-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dev-cross-sell h2 {
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+        }
+
+        .dev-cross-sell p {
+            color: #e2e8f0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            font-size: 1.05rem;
+            margin-bottom: 35px;
         }
 
         /* WhatsApp Flotante (Móvil) */
@@ -735,29 +895,31 @@
         </div>
     </section>
 
-    <!-- CTA Dev Portfolio -->
-    <section class="cta-section">
+    <!-- SECCION A: Proyecto a Medida (Foco principal de Diseno) -->
+    <section class="custom-project-wrapper">
         <div class="container reveal">
-            <div class="cta-box">
-                <div class="cta-content">
-                    <h2>El diseño es solo el inicio. <br><span class="text-gradient">¿Construimos tu plataforma?</span></h2>
-                    <p style="color: #e2e8f0; text-shadow: 0 2px 8px rgba(0,0,0,0.8); font-size: 1rem; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
-                        Descubre mi faceta como Ingeniero en Sistemas Computacionales. Desarrollamos herramientas escalables, landing pages interactivas y sistemas con IA.
-                    </p>
-                    <div class="custom-offer-mini">
-                        <h3>Algo a medida</h3>
-                        <p>¿Necesitas una solución personalizada para tu marca o negocio? Cuéntame qué buscas y te preparo una propuesta enfocada a tu objetivo.</p>
-                        <a href="agendar.html" class="btn btn-primary">
-                            <i class="fas fa-comments"></i> Contáctame
-                        </a>
-                    </div>
-                    <div style="display: flex; justify-content: center; width: 100%;">
-                        <a href="desarrollo_software.html" target="_blank" class="btn btn-secondary" style="border-color: var(--accent-1); color: white; background: rgba(15, 23, 42, 0.6);">
-                            <i class="fas fa-terminal"></i> Ver Portafolio de Programación
-                        </a>
-                    </div>
-                </div>
+            <div class="custom-project-card">
+                <div class="custom-project-glow"></div>
+                <i class="fas fa-rocket custom-project-icon"></i>
+                <h3>Soluciones a la Medida</h3>
+                <p>¿Tu negocio requiere una arquitectura única? Cuéntame tus objetivos y estructuraremos un plan estratégico para hacerlo realidad.</p>
+                <a href="agendar.html" class="btn btn-primary" style="width: 100%; max-width: 320px; margin: 0 auto;">
+                    <i class="fas fa-clipboard-list"></i> Llenar Formulario de Proyecto
+                </a>
             </div>
+        </div>
+    </section>
+
+    <!-- SECCION B: Cross-Sell Dev Portfolio (Banner rompedor al final) -->
+    <section class="dev-cross-sell reveal">
+        <div class="dev-cross-sell-content">
+            <h2>El diseño es solo el inicio. <br><span class="text-gradient">¿Construimos tu plataforma?</span></h2>
+            <p>
+                Descubre mi faceta como Ingeniero en Sistemas Computacionales. Desarrollamos herramientas escalables, landing pages interactivas y sistemas con Inteligencia Artificial.
+            </p>
+            <a href="desarrollo_software.html" target="_blank" class="btn btn-secondary" style="border-color: var(--accent-1); color: white; background: rgba(15, 23, 42, 0.6); display: inline-flex; width: auto;">
+                <i class="fas fa-terminal"></i> Ver Portafolio de Programación
+            </a>
         </div>
     </section>
 

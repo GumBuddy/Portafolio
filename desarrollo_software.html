@@ -508,6 +508,46 @@
             margin-bottom: 30px;
             color: var(--text-muted);
         }
+
+        .custom-cta-mini {
+            margin: 0 auto 28px;
+            max-width: 560px;
+            padding: 18px;
+            border-radius: 16px;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .custom-cta-mini h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .custom-cta-mini p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .custom-cta-mini a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+        }
+
+        .custom-cta-mini a:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-1);
+            background: rgba(59, 130, 246, 0.15);
+        }
         
         .contact-links {
             display: flex;
@@ -971,6 +1011,14 @@
             <h2 class="section-title fade-in">Pongámonos en Contacto</h2>
             <div class="contact-container glass-panel fade-in">
                 <p class="contact-description">¿Interesado en desarrollar una plataforma de alto impacto? Hablemos de código y soluciones.</p>
+                <div class="custom-cta-mini">
+                    <h3>Algo a medida</h3>
+                    <p>Si tu proyecto necesita un flujo único, cuéntame los detalles y llenamos un brief rápido para aterrizar la solución ideal.</p>
+                    <a href="agendar.html">
+                        <i class="fas fa-clipboard-list"></i>
+                        Contáctame y llena tu formulario
+                    </a>
+                </div>
                 <div class="contact-links">
                     <a href="https://github.com/GumBuddy" target="_blank" class="contact-link">
                         <i class="fab fa-github contact-icon"></i>

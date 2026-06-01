@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GumBuddy/Portafolio.git"
+    "url": "git+https://github.com/Angelo-Azcorra/Portafolio.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GumBuddy/Portafolio/issues"
+    "url": "https://github.com/Angelo-Azcorra/Portafolio/issues"
   },
-  "homepage": "https://github.com/GumBuddy/Portafolio#readme",
+  "homepage": "https://github.com/Angelo-Azcorra/Portafolio#readme",
   "dependencies": {
     "node-fetch": "^2.7.0"
   }

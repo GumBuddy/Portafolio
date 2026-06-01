@@ -24,8 +24,8 @@
     "description": "Herramienta de cifrado de enlaces del lado del cliente construida desde cero con un enfoque en la privacidad total, la usabilidad y un diseño profesional.",
     "technologies": ["JavaScript (ES6+)", "CryptoJS", "Bootstrap 5", "Accesibilidad (a11y)"],
     "icon": "fas fa-shield-alt",
-    "url": "https://gumbuddy.github.io/ECOP/RAKURL.html",
-    "repoUrl": "https://github.com/GumBuddy/Portafolio/blob/main/RAKURL.html"
+    "url": "https://Angelo-Azcorra.github.io/ECOP/RAKURL.html",
+    "repoUrl": "https://github.com/Angelo-Azcorra/Portafolio/blob/main/RAKURL.html"
   },
   {
     "id": "otro-proyecto",

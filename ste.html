@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Servicio Técnico Especializado — Reparación de equipos de cómputo</title>
+<meta name="description" content="Formateo, recuperación de datos, limpieza y reparación de equipos de cómputo en Campeche. Cada equipo entra con folio, diagnóstico por escrito y garantía sobre la mano de obra.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carbon:#0a0a10;
+  --carbon-2:#12121c;
+  --ink:#f4f3ef;
+  --ink-dim:#9d9db4;
+  --ink-faint:#5d5d78;
+  --violet:#8b5cf6;
+  --blue:#4f8cff;
+  --stamp:#ff3d71;
+  --rule:rgba(244,243,239,.13);
+  --rule-hard:rgba(244,243,239,.28);
+  --display:'Archivo Black',system-ui,sans-serif;
+  --sans:'Archivo',system-ui,sans-serif;
+  --form:'Courier Prime',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--carbon);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--stamp);color:#fff}
+.sheet{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* ===== GRANO EN CANVAS: textura de papel sobre el fondo ===== */
+#grain{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  opacity:.05;mix-blend-mode:screen;
+}
+body > *:not(#grain):not(#loader){position:relative;z-index:1}
+
+/* ===== CARGA: LLENADO LÍQUIDO =====
+   Se oculta sola por CSS (sin depender de JS) para que la página
+   nunca quede atrapada tras la pantalla de carga. */
+#loader{
+  position:fixed;inset:0;z-index:9999;background:var(--carbon);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
+  animation:loaderOut .7s ease 2.5s forwards;
+}
+#loader.done{animation:loaderOut .55s ease forwards}
+@keyframes loaderOut{to{opacity:0;visibility:hidden;pointer-events:none}}
+.liquid-wrap{width:170px;height:110px;position:relative}
+.liquid-txt{
+  font-family:var(--display);font-size:64px;letter-spacing:-.02em;
+  fill:none;stroke:var(--rule-hard);stroke-width:1;
+}
+.liquid-label{
+  font-family:var(--form);font-size:11px;letter-spacing:.24em;
+  color:var(--ink-faint);text-transform:uppercase;
+}
+@media (prefers-reduced-motion:reduce){
+  #loader{animation:loaderOut .01s ease .2s forwards}
+}
+
+/* ===== BARRA DE LECTURA + NAV ===== */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgba(10,10,16,.86);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);
+}
+#readbar{
+  height:2px;background:linear-gradient(90deg,var(--stamp),var(--violet),var(--blue));
+  width:0%;transition:width .08s linear;
+}
+.nav-in{
+  max-width:1080px;margin:0 auto;padding:12px clamp(16px,4vw,40px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.nav-brand{font-family:var(--form);font-size:13px;font-weight:700;letter-spacing:.04em}
+.nav-brand .pip{color:var(--stamp)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{
+  font-family:var(--form);font-size:12.5px;color:var(--ink-dim);
+  padding:8px 12px;transition:color .16s ease,background .16s ease;
+  opacity:0;transform:translateY(-8px);
+  animation:navIn .42s ease forwards;
+}
+.nav-links a:hover{color:var(--ink);background:var(--carbon-2)}
+.nav-links a.is-cta{background:var(--stamp);color:#fff;font-weight:700}
+.nav-links a.is-cta:hover{background:var(--violet);color:#fff}
+@keyframes navIn{to{opacity:1;transform:none}}
+.nav-links a:nth-child(1){animation-delay:2.55s}
+.nav-links a:nth-child(2){animation-delay:2.63s}
+.nav-links a:nth-child(3){animation-delay:2.71s}
+.nav-links a:nth-child(4){animation-delay:2.79s}
+.nav-toggle{
+  display:none;background:none;border:1px solid var(--rule-hard);color:var(--ink);
+  font-family:var(--form);font-size:12px;padding:8px 12px;cursor:pointer;
+}
+@media (prefers-reduced-motion:reduce){
+  .nav-links a{animation-delay:0s !important;animation-duration:.01s !important}
+}
+
+.field-label{
+  font-family:var(--form);font-size:11px;letter-spacing:.16em;
+  color:var(--ink-faint);text-transform:uppercase;display:block;
+}
+
+/* ===== ENCABEZADO DEL DOCUMENTO ===== */
+.doc-head{
+  border-bottom:2px solid var(--ink);padding:22px 0 14px;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+}
+.doc-head .who{font-family:var(--form);font-size:13px;line-height:1.5}
+.doc-head .who b{display:block;font-size:15px;letter-spacing:.02em}
+.folio-box{
+  border:1.5px solid var(--ink);padding:8px 14px;font-family:var(--form);
+  font-size:12px;line-height:1.5;text-align:right;
+}
+.folio-box .n{font-size:17px;font-weight:700;letter-spacing:.04em}
+.folio-box .live{color:var(--stamp)}
+
+/* ===== CAMPO FALLA (HERO) ===== */
+.reported{padding:clamp(34px,6vw,60px) 0 clamp(28px,5vw,48px)}
+.reported-frame{border-left:3px solid var(--stamp);padding-left:clamp(16px,3vw,28px)}
+.fault{
+  font-family:var(--display);font-size:clamp(38px,10vw,116px);line-height:.96;
+  letter-spacing:-.02em;text-transform:uppercase;margin:14px 0 0;min-height:2em;
+  overflow-wrap:break-word;
+}
+.fault .caret{
+  display:inline-block;width:.46em;height:.82em;background:var(--stamp);
+  vertical-align:-.06em;margin-left:.08em;animation:blink 1.05s steps(1) infinite;
+}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.reported-foot{
+  display:flex;flex-wrap:wrap;gap:clamp(20px,5vw,56px);
+  justify-content:space-between;align-items:flex-end;margin-top:clamp(28px,5vw,44px);
+}
+.reported-foot p{max-width:44ch;font-size:15.5px;line-height:1.6;color:var(--ink-dim)}
+.stamp-note{
+  font-family:var(--form);font-size:12px;color:var(--stamp);
+  border:1px dashed var(--stamp);padding:6px 12px;transform:rotate(-1.4deg);
+  display:inline-block;white-space:nowrap;
+}
+
+.perf{border:0;border-top:2px dashed var(--rule-hard);margin:0;position:relative;height:0}
+.perf::after{
+  content:"\2702";position:absolute;left:8px;top:-11px;background:var(--carbon);
+  padding:0 6px;font-size:13px;color:var(--ink-faint);
+}
+
+.block{padding:clamp(46px,7vw,84px) 0}
+.block-title{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(26px,4.4vw,46px);line-height:1;letter-spacing:-.015em;
+  margin:10px 0 clamp(22px,3.5vw,34px);
+}
+
+/* ===== CASILLAS ===== */
+.pick-intro{font-size:15px;color:var(--ink-dim);max-width:54ch;margin-bottom:26px;line-height:1.6}
+.picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.pick{
+  display:flex;align-items:flex-start;gap:14px;cursor:pointer;
+  padding:16px 14px;border-bottom:1px solid var(--rule);
+  transition:background .16s ease;position:relative;
+}
+.pick:hover{background:var(--carbon-2)}
+.pick input{position:absolute;opacity:0;width:0;height:0}
+.pick .box{
+  width:22px;height:22px;flex:none;border:1.5px solid var(--rule-hard);margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--form);font-size:14px;font-weight:700;color:var(--stamp);
+  transition:border-color .16s ease,background .16s ease;
+}
+.pick input:checked + .box{border-color:var(--stamp);background:rgba(255,61,113,.12)}
+.pick input:checked + .box::after{content:"\2715"}
+.pick input:focus-visible + .box{outline:2px solid var(--violet);outline-offset:2px}
+.pick .txt{font-size:16px;line-height:1.4}
+.pick .sub{display:block;font-size:13px;color:var(--ink-faint);margin-top:3px;line-height:1.45}
+.pick input:checked ~ .txt{color:#fff}
+
+.summary{
+  margin-top:30px;border:1.5px solid var(--rule-hard);display:flex;flex-wrap:wrap;
+  justify-content:space-between;align-items:center;gap:20px;padding:22px 24px;
+  background:var(--carbon-2);
+}
+.summary-txt{font-family:var(--form);font-size:13.5px;line-height:1.65;color:var(--ink-dim);flex:1 1 260px}
+.summary-txt b{color:var(--ink)}
+.send{
+  font-family:var(--form);font-weight:700;font-size:15px;letter-spacing:.04em;
+  background:var(--stamp);color:#fff;padding:16px 24px;white-space:nowrap;
+  transition:transform .16s ease,box-shadow .16s ease;text-transform:uppercase;
+}
+.send:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--violet)}
+
+/* ===== ESTADOS: marquesina infinita =====
+   La pista lleva la lista de tarjetas dos veces seguidas y se desplaza
+   exactamente la mitad de su ancho. Al terminar, el segundo juego queda
+   justo donde estaba el primero, así que el salto al reiniciar es
+   invisible y el flujo se ve continuo. */
+.marquee{
+  position:relative;overflow:hidden;
+  /* Difumina los extremos para que las tarjetas aparezcan y desaparezcan
+     en lugar de cortarse de golpe contra el borde. */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+}
+.marquee-track{
+  display:flex;gap:16px;width:max-content;
+  animation:slide 44s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track{animation-play-state:paused}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.state-card{
+  flex:0 0 clamp(260px,72vw,340px);
+  border:1.5px solid var(--rule);background:var(--carbon-2);
+  padding:22px 20px;transition:border-color .2s ease,transform .2s ease;
+}
+.state-card:hover{border-color:var(--rule-hard);transform:translateY(-3px)}
+.state-card .code{
+  font-family:var(--form);font-size:11px;color:var(--ink-faint);letter-spacing:.14em;
+  display:block;margin-bottom:9px;
+}
+.state-card h3{
+  font-family:var(--display);text-transform:uppercase;font-size:clamp(15px,2.2vw,20px);
+  letter-spacing:-.01em;margin-bottom:8px;line-height:1.1;
+}
+.state-card p{font-size:14px;line-height:1.6;color:var(--ink-dim)}
+.state-card[data-i="1"] h3,.state-card[data-i="3"] h3{color:var(--violet)}
+.state-card[data-i="5"] h3{color:var(--stamp)}
+.marquee-hint{
+  font-family:var(--form);font-size:11.5px;color:var(--ink-faint);
+  margin-top:16px;letter-spacing:.04em;
+}
+@media (prefers-reduced-motion:reduce){
+  /* Sin animación: se vuelve una tira deslizable a mano. */
+  .marquee{-webkit-mask-image:none;mask-image:none;overflow-x:auto}
+  .marquee-track{animation:none}
+}
+
+/* ===== SELLOS ===== */
+.seals{display:flex;flex-wrap:wrap;gap:clamp(14px,3vw,26px)}
+.seal{flex:1 1 240px;border:1.5px solid var(--rule-hard);padding:24px 22px}
+.seal:nth-child(2){border-color:var(--violet)}
+.seal:nth-child(3){border-color:var(--stamp)}
+.seal .big{font-family:var(--display);font-size:clamp(34px,5.5vw,54px);line-height:1;letter-spacing:-.02em}
+.seal:nth-child(2) .big{color:var(--violet)}
+.seal:nth-child(3) .big{font-size:clamp(21px,3vw,29px);color:var(--stamp)}
+.seal p{font-size:13.5px;line-height:1.55;color:var(--ink-dim);margin-top:10px}
+
+.signatures{display:flex;flex-wrap:wrap;gap:clamp(24px,6vw,60px);padding-top:clamp(30px,5vw,48px)}
+.sig{flex:1 1 240px}
+.sig .line{border-top:1px solid var(--rule-hard);margin-bottom:8px;padding-top:10px}
+.sig .name{font-family:var(--form);font-size:13.5px}
+.sig .role{font-size:12px;color:var(--ink-faint);margin-top:3px}
+
+.stub{
+  border:1.5px solid var(--rule-hard);margin-top:clamp(30px,5vw,44px);padding:22px 24px;
+  display:flex;flex-wrap:wrap;gap:22px;justify-content:space-between;
+  font-family:var(--form);font-size:13px;
+}
+.stub .k{color:var(--ink-faint);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.stub .v{font-size:15px;margin-top:5px;display:inline-block}
+.stub a.v{color:var(--stamp)}
+.stub a.v:hover{text-decoration:underline}
+
+footer{padding:34px 0 46px;font-family:var(--form);font-size:12px;color:var(--ink-faint)}
+
+@media (max-width:760px){
+  .nav-links{
+    position:absolute;top:100%;right:0;left:0;background:var(--carbon-2);
+    border-bottom:1px solid var(--rule-hard);flex-direction:column;align-items:stretch;
+    padding:8px;gap:0;display:none;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px;font-size:14px;animation:none;opacity:1;transform:none}
+  .nav-links.open a{animation:navIn .3s ease forwards;opacity:0}
+  .nav-links.open a:nth-child(1){animation-delay:.02s}
+  .nav-links.open a:nth-child(2){animation-delay:.08s}
+  .nav-links.open a:nth-child(3){animation-delay:.14s}
+  .nav-links.open a:nth-child(4){animation-delay:.20s}
+  .nav-toggle{display:block}
+  .nav-in{position:relative}
+  .picks{grid-template-columns:1fr}
+  .summary{flex-direction:column;align-items:stretch}
+  .send{width:100%;text-align:center}
+  .reported-foot{align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+    transition-duration:.001ms !important}
+  .fault .caret{display:none}
+  #loader{animation:loaderOut .01s ease .2s forwards}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #loader,#grain,.topbar,.send{display:none !important}
+  .perf::after{display:none}
+  .fault{font-size:40px}
+  .state-card{opacity:1;transform:none}
+}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<!-- Carga: el texto se llena como un líquido que sube -->
+<div id="loader" role="status" aria-label="Cargando">
+  <div class="liquid-wrap">
+    <svg viewBox="0 0 170 110" width="170" height="110" aria-hidden="true">
+      <defs>
+        <clipPath id="clipTxt">
+          <text x="85" y="76" text-anchor="middle"
+                font-family="Archivo Black, sans-serif" font-size="58">A&amp;A</text>
+        </clipPath>
+        <linearGradient id="liqGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ff3d71"/>
+          <stop offset="100%" stop-color="#8b5cf6"/>
+        </linearGradient>
+      </defs>
+      <text class="liquid-txt" x="85" y="76" text-anchor="middle"
+            font-family="Archivo Black, sans-serif" font-size="58">A&amp;A</text>
+      <g clip-path="url(#clipTxt)">
+        <path fill="url(#liqGrad)"
+              d="M-170 110 q42.5 -12 85 0 t85 0 t85 0 t85 0 v60 h-340 z">
+          <animateTransform attributeName="transform" type="translate"
+            from="0 0" to="170 -104" dur="2.3s" fill="freeze"
+            calcMode="spline" keySplines="0.3 0 0.3 1"/>
+        </path>
+      </g>
+    </svg>
+  </div>
+  <div class="liquid-label">Servicio Técnico Especializado</div>
+</div>
+
+<div class="topbar">
+  <div id="readbar"></div>
+  <div class="nav-in">
+    <a class="nav-brand" href="#top"><span class="pip">●</span> A&amp;A</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menú</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#solicitar">Servicios</a>
+      <a href="#estado">Proceso</a>
+      <a href="precios.html">Precios</a>
+      <a class="is-cta" id="navCta" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    </nav>
+  </div>
+</div>
+
+<div class="sheet" id="top">
+
+  <header class="doc-head">
+    <div class="who">
+      <b id="bizName">Servicio Técnico Especializado</b>
+      <span>Reparación de equipos de cómputo · Campeche</span>
+    </div>
+    <div class="folio-box">
+      <div class="live">● recibiendo equipos hoy</div>
+      <div class="n" id="folioNum">OS-000000-01</div>
+    </div>
+  </header>
+
+  <section class="reported">
+    <div class="reported-frame">
+      <span class="field-label">Falla reportada</span>
+      <h1 class="fault" id="fault"><span class="caret"></span></h1>
+    </div>
+    <div class="reported-foot">
+      <p>
+        Sea cual sea, entra igual: con folio, con el estado físico anotado
+        frente a ti y con diagnóstico antes de cualquier presupuesto.
+        Reparación de computadoras y laptops en Campeche.
+      </p>
+      <span class="stamp-note">15 años reparando equipos</span>
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section class="block" id="solicitar">
+    <span class="field-label">Servicios solicitados</span>
+    <h2 class="block-title">Marca lo que necesitas</h2>
+    <p class="pick-intro">
+      Elige los servicios y el botón arma tu mensaje de WhatsApp con la lista
+      lista para enviar. Si no sabes cuál es, marca revisión general y yo lo diagnostico.
+      <a href="precios.html" style="color:var(--stamp);text-decoration:underline">Ver lista de precios</a>.
+    </p>
+    <div class="picks" id="picks"></div>
+    <div class="summary">
+      <div class="summary-txt" id="summaryTxt">Nada marcado todavía — puedes escribirme igual.</div>
+      <a class="send" id="sendBtn" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section class="block" id="estado">
+    <span class="field-label">Estado del equipo</span>
+    <h2 class="block-title">Dónde está tu equipo, siempre</h2>
+    <div class="marquee" id="marquee">
+      <div class="marquee-track" id="states"></div>
+    </div>
+    <p class="marquee-hint">Pasa el cursor para detener el flujo</p>
+  </section>
+
+  <hr class="perf">
+
+  <section class="block">
+    <span class="field-label">Constancia</span>
+    <h2 class="block-title">Lo que queda por escrito</h2>
+    <div class="seals">
+      <div class="seal">
+        <div class="big">15</div>
+        <p>años reparando equipos de cómputo, de laptops domésticas a parques completos de oficina.</p>
+      </div>
+      <div class="seal">
+        <div class="big">100%</div>
+        <p>satisfacción del cliente en cada servicio entregado hasta hoy.</p>
+      </div>
+      <div class="seal">
+        <div class="big">Garantía real</div>
+        <p>30 días sobre la mano de obra, anotados en tu orden. No es promesa de palabra.</p>
+      </div>
+    </div>
+
+    <div class="signatures">
+      <div class="sig">
+        <div class="line"></div>
+        <div class="name">Cliente</div>
+        <div class="role">Acepta las condiciones y confirma el estado del equipo</div>
+      </div>
+      <div class="sig">
+        <div class="line"></div>
+        <div class="name" id="techName">Angelo Duriel Azcorra Moguel</div>
+        <div class="role">Recibe el equipo</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="perf">
+
+  <section class="stub">
+    <div>
+      <div class="k">Teléfono</div>
+      <a class="v" id="stubPhone" href="#">981-142-6154</a>
+    </div>
+    <div>
+      <div class="k">Correo</div>
+      <a class="v" id="stubMail" href="#">angelo.azcorra@devprojects.space</a>
+    </div>
+    <div>
+      <div class="k">Cobertura</div>
+      <span class="v">Campeche y alrededores</span>
+    </div>
+  </section>
+
+  <footer>Cada equipo entra con folio. Cada folio, con garantía por escrito.</footer>
+</div>
+
+<script src="./charts.js"></script>
+<script>
+"use strict";
+
+const SIN_MOV = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Datos del negocio: si esta página se publica junto a la app, toma el
+   mismo config.json y no hay que mantener dos copias de lo mismo. */
+const DEFAULTS = {
+  name: "Servicio Técnico Especializado",
+  tech: "Angelo Duriel Azcorra Moguel",
+  phone: "981-142-6154",
+  mail: "angelo.azcorra@devprojects.space"
+};
+let BIZ = Object.assign({}, DEFAULTS);
+
+const SERVICIOS = [
+  { n: "Formateo e instalación de sistema operativo", d: "Cuando ya no arranca o está lleno de basura" },
+  { n: "Limpieza profunda de software",              d: "Para equipos que se volvieron lentos" },
+  { n: "Eliminación de virus / malware",             d: "Publicidad, pestañas solas, archivos raros" },
+  { n: "Recuperación de datos",                      d: "Fotos y documentos de un disco que ya no abre" },
+  { n: "Respaldo de información",                    d: "Antes de cualquier cambio fuerte" },
+  { n: "Instalación / activación de Office",         d: "Word, Excel y compañía, funcionando" },
+  { n: "Mantenimiento preventivo",                   d: "Limpieza física, pasta térmica, ventiladores" },
+  { n: "Revisión general",                           d: "No sé qué tiene — diagnostícalo tú" }
+];
+
+const ESTADOS = [
+  { c: "01", t: "Recibido", d: "Se anota folio, número de serie, accesorios y el estado físico con el que llegó, contigo presente." },
+  { c: "02", t: "En diagnóstico", d: "Se busca la falla real antes de hablar de dinero. Primero se sabe qué tiene, luego cuánto cuesta." },
+  { c: "03", t: "Esperando autorización", d: "Te paso el presupuesto exacto por WhatsApp. Nada se toca sin tu visto bueno." },
+  { c: "04", t: "En reparación", d: "Se hace lo autorizado. Si aparece algo más al abrir el equipo, se detiene y se te avisa." },
+  { c: "05", t: "Listo para entrega", d: "Probado y funcionando. Te aviso con el saldo pendiente, si lo hay." },
+  { c: "06", t: "Entregado", d: "Se entrega con tu orden o identificación. Empiezan a correr los 30 días de garantía." }
+];
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+/* ---------- Carga: se quita en cuanto todo está listo ---------- */
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const l = document.getElementById("loader");
+    if (l) l.classList.add("done");
+  }, SIN_MOV ? 0 : 2300);
+});
+
+/* ---------- Grano animado de fondo ----------
+   Se dibuja un mosaico pequeño y se repite: generar ruido a pantalla
+   completa en cada cuadro sería costosísimo en teléfonos. */
+(function grano() {
+  const cv = document.getElementById("grain");
+  if (!cv) return;
+  const ctx = cv.getContext("2d", { alpha: true });
+  const LADO = 140;
+  const mosaico = document.createElement("canvas");
+  mosaico.width = mosaico.height = LADO;
+  const mctx = mosaico.getContext("2d");
+
+  function nuevoMosaico() {
+    const img = mctx.createImageData(LADO, LADO);
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = (Math.random() * 255) | 0;
+      d[i] = d[i + 1] = d[i + 2] = v;
+      d[i + 3] = 22;
+    }
+    mctx.putImageData(img, 0, 0);
+  }
+
+  function medir() {
+    cv.width = Math.ceil(window.innerWidth);
+    cv.height = Math.ceil(window.innerHeight);
+  }
+
+  function pintar() {
+    nuevoMosaico();
+    const patron = ctx.createPattern(mosaico, "repeat");
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = patron;
+    ctx.fillRect(0, 0, cv.width, cv.height);
+  }
+
+  medir();
+  pintar();
+  window.addEventListener("resize", () => { medir(); pintar(); }, { passive: true });
+  // ~8 cuadros por segundo: suficiente para que "viva" sin consumir batería.
+  if (!SIN_MOV) setInterval(pintar, 125);
+})();
+
+/* ---------- Barra de progreso de lectura ---------- */
+(function readbar() {
+  const bar = document.getElementById("readbar");
+  if (!bar) return;
+  let pendiente = false;
+  function actualizar() {
+    const alto = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = alto > 0 ? (window.scrollY / alto) * 100 : 0;
+    bar.style.width = Math.min(100, Math.max(0, pct)) + "%";
+    pendiente = false;
+  }
+  window.addEventListener("scroll", () => {
+    if (!pendiente) { pendiente = true; requestAnimationFrame(actualizar); }
+  }, { passive: true });
+  actualizar();
+})();
+
+/* ---------- Menú móvil con entrada escalonada ---------- */
+(function menu() {
+  const btn = document.getElementById("navToggle");
+  const links = document.getElementById("navLinks");
+  if (!btn || !links) return;
+  btn.addEventListener("click", () => {
+    const abierto = links.classList.toggle("open");
+    btn.setAttribute("aria-expanded", abierto ? "true" : "false");
+    btn.textContent = abierto ? "Cerrar" : "Menú";
+  });
+  links.addEventListener("click", e => {
+    if (e.target.tagName === "A" && links.classList.contains("open")) {
+      links.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+      btn.textContent = "Menú";
+    }
+  });
+})();
+
+/* ---------- Folio del día: fecha real + sufijo aleatorio ----------
+   Los dos últimos caracteres (un número y una letra) cambian en cada
+   visita, para que no parezca un dato fijo pegado en la página. */
+(function () {
+  const d = new Date();
+  const s = String(d.getFullYear()).slice(-2) +
+            String(d.getMonth() + 1).padStart(2, "0") +
+            String(d.getDate()).padStart(2, "0");
+  const LETRAS = "ABCDEFGHJKLMNPQRSTUVWXYZ";   // sin I ni O: se confunden con 1 y 0
+  const num = Math.floor(Math.random() * 10);
+  const letra = LETRAS[Math.floor(Math.random() * LETRAS.length)];
+  document.getElementById("folioNum").textContent = "OS-" + s + "-" + num + letra;
+})();
+
+/* ---------- El campo "falla reportada" se escribe solo ---------- */
+const FALLAS = [
+  "No enciende", "Va lentísima", "No inicializa el sistema",
+  "Pantalla azul", "Perdí mis archivos", "Se calienta y se apaga",
+  "Llena de publicidad", "No reconoce el disco"
+];
+(function typeFaults() {
+  const el = document.getElementById("fault");
+  const caret = '<span class="caret"></span>';
+  if (SIN_MOV) { el.innerHTML = esc(FALLAS[0]) + caret; return; }
+  let i = 0, ch = 0, borrando = false;
+  (function paso() {
+    const txt = FALLAS[i];
+    ch += borrando ? -1 : 1;
+    el.innerHTML = esc(txt.slice(0, ch)) + caret;
+    let espera = borrando ? 34 : 62;
+    if (!borrando && ch === txt.length) { borrando = true; espera = 1900; }
+    else if (borrando && ch === 0) { borrando = false; i = (i + 1) % FALLAS.length; espera = 260; }
+    setTimeout(paso, espera);
+  })();
+})();
+
+/* ---------- Casillas de servicio ---------- */
+document.getElementById("picks").innerHTML = SERVICIOS.map((s, i) =>
+  '<label class="pick" for="sv' + i + '">' +
+    '<input type="checkbox" value="' + esc(s.n) + '" id="sv' + i + '">' +
+    '<span class="box" aria-hidden="true"></span>' +
+    '<span class="txt">' + esc(s.n) + '<span class="sub">' + esc(s.d) + '</span></span>' +
+  '</label>'
+).join("");
+
+function waHref(msg) {
+  const dig = String(BIZ.phone).replace(/\D/g, "");
+  const full = dig.length === 10 ? "52" + dig : dig;
+  return "https://wa.me/" + full + "?text=" + encodeURIComponent(msg);
+}
+
+function refresh() {
+  const marcados = Array.prototype.slice
+    .call(document.querySelectorAll(".pick input:checked")).map(i => i.value);
+  const out = document.getElementById("summaryTxt");
+  const btn = document.getElementById("sendBtn");
+  let msg;
+  if (!marcados.length) {
+    out.textContent = "Nada marcado todavía — puedes escribirme igual.";
+    msg = "Hola, vi tu página y quiero llevar mi equipo a revisión. ¿Podrías darme informes?";
+  } else {
+    out.innerHTML = "Vas a pedir: <b>" + marcados.map(esc).join("</b>, <b>") + "</b>";
+    msg = "Hola, vi tu página y quiero llevar mi equipo. Me interesa:\n\n" +
+          marcados.map(s => "• " + s).join("\n") + "\n\n¿Podrías darme informes?";
+  }
+  btn.href = waHref(msg);
+  const nav = document.getElementById("navCta");
+  if (nav) nav.href = waHref("Hola, vi tu página y quiero llevar mi equipo a revisión.");
+}
+document.getElementById("picks").addEventListener("change", refresh);
+
+/* ---------- Estados en marquesina infinita ----------
+   Se pinta la lista DOS veces: la animación desplaza la pista un 50%,
+   de modo que cuando termina, la segunda copia ocupa exactamente la
+   posición inicial de la primera y el reinicio no se nota. */
+(function marquesina() {
+  const pista = document.getElementById("states");
+  if (!pista) return;
+
+  const tarjeta = (e, i, duplicada) =>
+    '<article class="state-card" data-i="' + i + '"' +
+      (duplicada ? ' aria-hidden="true"' : "") + ">" +
+      '<span class="code">' + esc(e.c) + "</span>" +
+      "<h3>" + esc(e.t) + "</h3><p>" + esc(e.d) + "</p>" +
+    "</article>";
+
+  // Primer juego real + copia oculta a lectores de pantalla (misma info).
+  pista.innerHTML = ESTADOS.map((e, i) => tarjeta(e, i, false)).join("") +
+                    ESTADOS.map((e, i) => tarjeta(e, i, true)).join("");
+
+  // Con poco contenido la animación se vería demasiado rápida; se ajusta
+  // la duración al ancho real para que la velocidad sea siempre pareja.
+  requestAnimationFrame(() => {
+    const ancho = pista.scrollWidth / 2;
+    if (ancho > 0) pista.style.animationDuration = Math.round(ancho / 55) + "s";
+  });
+})();
+
+/* ---------- Datos del negocio ---------- */
+function applyBiz(d) {
+  BIZ = d;
+  document.getElementById("bizName").textContent = d.name;
+  if (d.tech) document.getElementById("techName").textContent = d.tech;
+  const p = document.getElementById("stubPhone");
+  p.textContent = d.phone;
+  p.href = "tel:+52" + String(d.phone).replace(/\D/g, "");
+  const m = document.getElementById("stubMail");
+  m.textContent = d.mail;
+  m.href = "mailto:" + d.mail;
+  refresh();
+}
+
+fetch("./config.json", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : Promise.reject(new Error("sin config")))
+  .then(cfg => applyBiz(Object.assign({}, DEFAULTS, cfg)))
+  .catch(() => applyBiz(DEFAULTS));
+</script>
+</body>
+</html>

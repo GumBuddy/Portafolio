@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lista de precios — Servicio Técnico Especializado</title>
+<meta name="description" content="Precios base de reparación y mantenimiento de equipos de cómputo: formateo, limpieza, recuperación de datos, Office, respaldo y más.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carbon:#0a0a10;
+  --carbon-2:#12121c;
+  --ink:#f4f3ef;
+  --ink-dim:#9d9db4;
+  --ink-faint:#5d5d78;
+  --violet:#8b5cf6;
+  --blue:#4f8cff;
+  --stamp:#ff3d71;
+  --rule:rgba(244,243,239,.13);
+  --rule-hard:rgba(244,243,239,.28);
+  --display:'Archivo Black',system-ui,sans-serif;
+  --sans:'Archivo',system-ui,sans-serif;
+  --form:'Courier Prime',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--carbon);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--stamp);color:#fff}
+.sheet{max-width:1080px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+#grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.05;mix-blend-mode:screen}
+body > *:not(#grain){position:relative;z-index:1}
+
+/* ===== NAV + BARRA DE LECTURA ===== */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgba(10,10,16,.86);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);
+}
+#readbar{
+  height:2px;background:linear-gradient(90deg,var(--stamp),var(--violet),var(--blue));
+  width:0%;transition:width .08s linear;
+}
+.nav-in{
+  max-width:1080px;margin:0 auto;padding:12px clamp(16px,4vw,40px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;position:relative;
+}
+.nav-brand{font-family:var(--form);font-size:13px;font-weight:700;letter-spacing:.04em}
+.nav-brand .pip{color:var(--stamp)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{
+  font-family:var(--form);font-size:12.5px;color:var(--ink-dim);padding:8px 12px;
+  transition:color .16s ease,background .16s ease;
+  opacity:0;transform:translateY(-8px);animation:navIn .42s ease forwards;
+}
+.nav-links a:hover{color:var(--ink);background:var(--carbon-2)}
+.nav-links a[aria-current="page"]{color:var(--ink);border-bottom:1px solid var(--stamp)}
+.nav-links a.is-cta{background:var(--stamp);color:#fff;font-weight:700}
+.nav-links a.is-cta:hover{background:var(--violet)}
+@keyframes navIn{to{opacity:1;transform:none}}
+.nav-links a:nth-child(1){animation-delay:.05s}
+.nav-links a:nth-child(2){animation-delay:.13s}
+.nav-links a:nth-child(3){animation-delay:.21s}
+.nav-links a:nth-child(4){animation-delay:.29s}
+.nav-toggle{
+  display:none;background:none;border:1px solid var(--rule-hard);color:var(--ink);
+  font-family:var(--form);font-size:12px;padding:8px 12px;cursor:pointer;
+}
+
+.field-label{
+  font-family:var(--form);font-size:11px;letter-spacing:.16em;
+  color:var(--ink-faint);text-transform:uppercase;display:block;
+}
+
+/* ===== ENCABEZADO ===== */
+.head{padding:clamp(34px,6vw,64px) 0 clamp(24px,4vw,40px);border-bottom:2px solid var(--ink)}
+.head h1{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(34px,7.5vw,84px);line-height:.98;letter-spacing:-.02em;margin:12px 0 0;
+}
+.head .sub{
+  margin-top:22px;max-width:56ch;font-size:15.5px;line-height:1.65;color:var(--ink-dim);
+}
+.head .sub b{color:var(--ink)}
+
+/* ===== FILTROS ===== */
+.filters{display:flex;flex-wrap:wrap;gap:8px;padding:26px 0 6px}
+.filter{
+  font-family:var(--form);font-size:12.5px;color:var(--ink-dim);
+  border:1px solid var(--rule-hard);background:none;padding:9px 15px;cursor:pointer;
+  transition:color .16s ease,border-color .16s ease,background .16s ease;
+}
+.filter:hover{color:var(--ink)}
+.filter.on{background:var(--stamp);border-color:var(--stamp);color:#fff;font-weight:700}
+
+/* ===== MAMPOSTERÍA ===== */
+.masonry{columns:3;column-gap:16px;padding:22px 0 clamp(40px,7vw,80px)}
+@media (max-width:900px){.masonry{columns:2}}
+@media (max-width:600px){.masonry{columns:1}}
+
+.card{
+  break-inside:avoid;border:1.5px solid var(--rule);background:var(--carbon-2);
+  padding:22px 20px;margin-bottom:16px;
+  opacity:0;transform:translateY(24px) scale(.975);
+  transition:opacity .55s cubic-bezier(.2,.8,.2,1),transform .55s cubic-bezier(.2,.8,.2,1),
+             border-color .2s ease;
+}
+.card.in{opacity:1;transform:none}
+.card:hover{border-color:var(--rule-hard)}
+.card.destacada{border-color:var(--violet)}
+.card.paquete{border-color:var(--stamp)}
+
+.card .cat{
+  font-family:var(--form);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);display:block;margin-bottom:10px;
+}
+.card h2{
+  font-family:var(--display);text-transform:uppercase;font-size:clamp(15px,2vw,19px);
+  line-height:1.14;letter-spacing:-.01em;margin-bottom:10px;
+}
+.card.paquete h2{color:var(--stamp)}
+.card .price{
+  font-family:var(--form);font-weight:700;font-size:27px;letter-spacing:-.01em;
+  display:block;margin:12px 0 8px;
+}
+.card .price .mxn{font-size:12px;color:var(--ink-faint);font-weight:400;margin-left:5px}
+.card p{font-size:13.5px;line-height:1.6;color:var(--ink-dim)}
+.card .incluye{
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--rule);
+  font-family:var(--form);font-size:12px;color:var(--ink-faint);line-height:1.7;
+}
+.card .incluye b{color:var(--ink-dim);font-weight:400}
+.card .nota{
+  display:inline-block;margin-top:12px;font-family:var(--form);font-size:11px;
+  color:var(--stamp);border:1px dashed var(--stamp);padding:4px 9px;
+}
+@media (prefers-reduced-motion:reduce){
+  .card{opacity:1;transform:none;transition:none}
+  .nav-links a{animation-duration:.01s !important}
+}
+
+/* ===== AVISO / CIERRE ===== */
+.notice{
+  border:1.5px solid var(--rule-hard);padding:26px 24px;background:var(--carbon-2);
+  margin-bottom:clamp(34px,5vw,52px);
+}
+.notice h3{font-family:var(--display);text-transform:uppercase;font-size:19px;margin-bottom:12px}
+.notice p{font-size:14.5px;line-height:1.65;color:var(--ink-dim);max-width:70ch}
+.notice p + p{margin-top:10px}
+
+.closing{
+  border-top:2px dashed var(--rule-hard);padding:clamp(38px,6vw,66px) 0;
+  display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;
+}
+.closing h2{
+  font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(24px,4vw,40px);line-height:1.05;letter-spacing:-.02em;max-width:16ch;
+}
+.send{
+  font-family:var(--form);font-weight:700;font-size:15px;letter-spacing:.04em;
+  background:var(--stamp);color:#fff;padding:17px 26px;white-space:nowrap;
+  text-transform:uppercase;transition:transform .16s ease,box-shadow .16s ease;
+}
+.send:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--violet)}
+
+footer{
+  padding:30px 0 46px;font-family:var(--form);font-size:12px;color:var(--ink-faint);
+  border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:16px;
+  justify-content:space-between;
+}
+footer a:hover{color:var(--ink-dim)}
+
+@media (max-width:760px){
+  .nav-links{
+    position:absolute;top:100%;right:0;left:0;background:var(--carbon-2);
+    border-bottom:1px solid var(--rule-hard);flex-direction:column;align-items:stretch;
+    padding:8px;gap:0;display:none;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:14px;font-size:14px;animation:none;opacity:1;transform:none}
+  .nav-links.open a{animation:navIn .3s ease forwards;opacity:0}
+  .nav-links.open a:nth-child(1){animation-delay:.02s}
+  .nav-links.open a:nth-child(2){animation-delay:.08s}
+  .nav-links.open a:nth-child(3){animation-delay:.14s}
+  .nav-links.open a:nth-child(4){animation-delay:.20s}
+  .nav-toggle{display:block}
+  .closing{flex-direction:column;align-items:flex-start}
+  .send{width:100%;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+@media print{
+  body{background:#fff;color:#000}
+  #grain,.topbar,.send,.filters{display:none !important}
+  .masonry{columns:2}
+  .card{opacity:1;transform:none;border-color:#999}
+}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<div class="topbar">
+  <div id="readbar"></div>
+  <div class="nav-in">
+    <a class="nav-brand" href="index.html"><span class="pip">●</span> A&amp;A</a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks">Menú</button>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#estado">Proceso</a>
+      <a href="precios.html" aria-current="page">Precios</a>
+      <a class="is-cta" id="navCta" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    </nav>
+  </div>
+</div>
+
+<div class="sheet">
+
+  <header class="head">
+    <span class="field-label">Lista de precios base</span>
+    <h1>Cuánto cuesta<br>cada servicio</h1>
+    <p class="sub">
+      Precios de referencia en pesos mexicanos, por equipo. Son la base con la que
+      se arma tu orden: <b>lo que veas aquí es lo que se cobra</b>, salvo que al abrir
+      el equipo aparezca algo adicional — y en ese caso se te avisa antes de continuar.
+    </p>
+  </header>
+
+  <div class="filters" id="filters"></div>
+  <div class="masonry" id="grid"></div>
+
+  <div class="notice">
+    <h3>Lo que no está en la lista</h3>
+    <p>
+      Las <b>refacciones no están incluidas</b> en estos precios: cuando un servicio
+      dice “sin pieza”, se cobra la mano de obra y la pieza se cotiza aparte, con su
+      precio a la vista antes de comprarla.
+    </p>
+    <p>
+      ¿Tu equipo necesita algo que no aparece aquí? Se cotiza como servicio especial
+      después del diagnóstico, con el monto por escrito en tu orden antes de empezar.
+    </p>
+  </div>
+
+  <section class="closing">
+    <h2>¿Ya sabes qué necesitas?</h2>
+    <a class="send" id="sendBtn" href="#" target="_blank" rel="noopener">Pedir cita por WhatsApp</a>
+  </section>
+
+  <footer>
+    <span id="footName">Servicio Técnico Especializado</span>
+    <span><a id="footPhone" href="#">981-142-6154</a></span>
+    <span>Campeche y alrededores</span>
+  </footer>
+</div>
+
+<script src="./charts.js"></script>
+<script>
+"use strict";
+
+const SIN_MOV = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const DEFAULTS = {
+  name: "Servicio Técnico Especializado",
+  phone: "981-142-6154",
+  mail: "angelo.azcorra@devprojects.space"
+};
+let BIZ = Object.assign({}, DEFAULTS);
+
+/* Catálogo real del taller. Editar aquí actualiza la página completa. */
+const CATALOGO = [
+  { n: "Diagnóstico general", p: 250, cat: "Diagnóstico", destacada: true,
+    d: "Se identifica la falla real del equipo. Es el punto de partida de cualquier reparación.",
+    nota: "Se aplica al total si autorizas" },
+
+  { n: "Formateo e instalación de sistema operativo", p: 350, cat: "Software", top: 1,
+    d: "Sistema limpio desde cero, con los controladores que tu equipo necesita." },
+  { n: "Limpieza profunda de software", p: 150, cat: "Software", top: 2,
+    d: "Se quita lo que sobra y arranca lo que estorba. Para equipos que se volvieron lentos." },
+  { n: "Instalación / activación de Office", p: 150, cat: "Software",
+    d: "Word, Excel y compañía instalados y funcionando." },
+  { n: "Eliminación de virus / malware", p: 200, cat: "Software", top: 3,
+    d: "Publicidad que no se va, pestañas que se abren solas, archivos que no reconoces." },
+  { n: "Instalación de software adicional / antivirus", p: 100, cat: "Software",
+    d: "Programas que necesitas más antivirus configurado." },
+  { n: "Instalación de programas básicos", p: 150, cat: "Software",
+    d: "El paquete que todo equipo necesita para trabajar desde el primer día: lectores, compresores, navegador y utilidades." },
+
+  { n: "Recuperación de datos", p: 500, cat: "Datos",
+    d: "Fotos y documentos de un disco que ya no abre normalmente." },
+  { n: "Respaldo de información", p: 200, cat: "Datos",
+    d: "Copia de tus archivos antes de cualquier cambio fuerte en el equipo." },
+
+  { n: "Mantenimiento preventivo (limpieza física)", p: 200, cat: "Hardware",
+    d: "Limpieza interna, ventiladores y disipadores. Alarga la vida del equipo." },
+  { n: "Cambio de pasta térmica", p: 250, cat: "Hardware",
+    d: "Para equipos que se calientan de más o se apagan solos." },
+  { n: "Cambio de disco duro a SSD (sin pieza)", p: 200, cat: "Hardware",
+    d: "Mano de obra e instalación. El cambio que más se nota en velocidad.",
+    nota: "La pieza se cotiza aparte" },
+  { n: "Ampliación de memoria RAM (sin pieza)", p: 100, cat: "Hardware",
+    d: "Instalación y verificación de la memoria nueva.",
+    nota: "La pieza se cotiza aparte" },
+
+  { n: "Paquete mantenimiento", p: 400, cat: "Paquetes", paquete: true,
+    d: "El combo para dejar un equipo lento como nuevo, sin borrar nada.",
+    inc: ["Limpieza profunda de software", "Instalación / activación de Office", "Instalación de programas básicos"] },
+  { n: "Paquete renovación", p: 550, cat: "Paquetes", paquete: true,
+    d: "Cuando el equipo ya necesita empezar de cero.",
+    inc: ["Formateo e instalación de sistema operativo", "Instalación / activación de Office", "Instalación de programas básicos"] }
+];
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+function money(n) {
+  return "$" + Number(n).toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+/* ---------- Grano de fondo ---------- */
+(function grano() {
+  const cv = document.getElementById("grain");
+  if (!cv) return;
+  const ctx = cv.getContext("2d", { alpha: true });
+  const LADO = 140;
+  const mosaico = document.createElement("canvas");
+  mosaico.width = mosaico.height = LADO;
+  const mctx = mosaico.getContext("2d");
+
+  function nuevoMosaico() {
+    const img = mctx.createImageData(LADO, LADO);
+    const d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = (Math.random() * 255) | 0;
+      d[i] = d[i + 1] = d[i + 2] = v;
+      d[i + 3] = 22;
+    }
+    mctx.putImageData(img, 0, 0);
+  }
+  function medir() {
+    cv.width = Math.ceil(window.innerWidth);
+    cv.height = Math.ceil(window.innerHeight);
+  }
+  function pintar() {
+    nuevoMosaico();
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = ctx.createPattern(mosaico, "repeat");
+    ctx.fillRect(0, 0, cv.width, cv.height);
+  }
+  medir(); pintar();
+  window.addEventListener("resize", () => { medir(); pintar(); }, { passive: true });
+  if (!SIN_MOV) setInterval(pintar, 125);
+})();
+
+/* ---------- Barra de lectura ---------- */
+(function readbar() {
+  const bar = document.getElementById("readbar");
+  if (!bar) return;
+  let pendiente = false;
+  function actualizar() {
+    const alto = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = Math.min(100, Math.max(0, alto > 0 ? (window.scrollY / alto) * 100 : 0)) + "%";
+    pendiente = false;
+  }
+  window.addEventListener("scroll", () => {
+    if (!pendiente) { pendiente = true; requestAnimationFrame(actualizar); }
+  }, { passive: true });
+  actualizar();
+})();
+
+/* ---------- Menú móvil ---------- */
+(function menu() {
+  const btn = document.getElementById("navToggle");
+  const links = document.getElementById("navLinks");
+  if (!btn || !links) return;
+  btn.addEventListener("click", () => {
+    const abierto = links.classList.toggle("open");
+    btn.setAttribute("aria-expanded", abierto ? "true" : "false");
+    btn.textContent = abierto ? "Cerrar" : "Menú";
+  });
+})();
+
+/* ---------- Mampostería con filtros ---------- */
+/* El primer filtro ya no muestra el catálogo completo: abrir con 15
+   tarjetas abrumaba. Ahora arranca con los 3 servicios más pedidos y
+   el resto se explora por categoría. */
+const CATS = ["Más pedidos"].concat(
+  CATALOGO.map(c => c.cat).filter((v, i, a) => a.indexOf(v) === i)
+);
+let filtroActivo = "Más pedidos";
+
+document.getElementById("filters").innerHTML = CATS.map(c =>
+  '<button class="filter' + (c === filtroActivo ? " on" : "") + '" data-cat="' + esc(c) + '">' +
+  esc(c) + "</button>"
+).join("");
+
+function tarjeta(s) {
+  const clases = "card" + (s.destacada ? " destacada" : "") + (s.paquete ? " paquete" : "");
+  return '<article class="' + clases + '" data-cat="' + esc(s.cat) + '">' +
+    '<span class="cat">' + esc(s.cat) + "</span>" +
+    "<h2>" + esc(s.n) + "</h2>" +
+    '<span class="price">' + money(s.p) + '<span class="mxn">MXN</span></span>' +
+    "<p>" + esc(s.d) + "</p>" +
+    (s.inc
+      ? '<div class="incluye">Incluye:<br>' +
+        s.inc.map(x => "<b>· " + esc(x) + "</b>").join("<br>") + "</div>"
+      : "") +
+    (s.nota ? '<span class="nota">' + esc(s.nota) + "</span>" : "") +
+    "</article>";
+}
+
+function pintarGrid() {
+  let lista;
+  if (filtroActivo === "Más pedidos") {
+    lista = CATALOGO.filter(s => s.top).sort((a, b) => a.top - b.top);
+  } else {
+    lista = CATALOGO.filter(s => s.cat === filtroActivo);
+  }
+  const grid = document.getElementById("grid");
+  grid.innerHTML = lista.map(tarjeta).join("");
+  revelar();
+}
+
+function revelar() {
+  const cards = document.querySelectorAll(".card");
+  if (SIN_MOV || !("IntersectionObserver" in window)) {
+    cards.forEach(c => c.classList.add("in"));
+    return;
+  }
+  const obs = new IntersectionObserver((entradas, o) => {
+    entradas.forEach(en => {
+      if (!en.isIntersecting) return;
+      const idx = Array.prototype.indexOf.call(cards, en.target);
+      en.target.style.transitionDelay = (idx % 6) * 75 + "ms";
+      en.target.classList.add("in");
+      o.unobserve(en.target);
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -30px 0px" });
+  cards.forEach(c => obs.observe(c));
+}
+
+document.getElementById("filters").addEventListener("click", e => {
+  const btn = e.target.closest(".filter");
+  if (!btn) return;
+  filtroActivo = btn.getAttribute("data-cat");
+  document.querySelectorAll(".filter").forEach(b => b.classList.toggle("on", b === btn));
+  pintarGrid();
+});
+
+pintarGrid();
+
+/* ---------- Datos del negocio ---------- */
+function waHref(msg) {
+  const dig = String(BIZ.phone).replace(/\D/g, "");
+  const full = dig.length === 10 ? "52" + dig : dig;
+  return "https://wa.me/" + full + "?text=" + encodeURIComponent(msg);
+}
+function applyBiz(d) {
+  BIZ = d;
+  document.getElementById("footName").textContent = d.name;
+  const p = document.getElementById("footPhone");
+  p.textContent = d.phone;
+  p.href = "tel:+52" + String(d.phone).replace(/\D/g, "");
+  const msg = "Hola, vi tu lista de precios y quiero agendar una revisión. ¿Podrías darme informes?";
+  ["sendBtn", "navCta"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.href = waHref(msg);
+  });
+}
+fetch("./config.json", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : Promise.reject(new Error("sin config")))
+  .then(cfg => applyBiz(Object.assign({}, DEFAULTS, cfg)))
+  .catch(() => applyBiz(DEFAULTS));
+</script>
+</body>
+</html>
